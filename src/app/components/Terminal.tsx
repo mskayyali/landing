@@ -24,7 +24,7 @@ const welcomeMessage = [
   'Product & User Experience Designer',
   '',
   <>
-    London-based designer and amateur developer with 12+ years of experience in software design. Currently working in financial software design and pursuing (<a href="https://interfacestudies.substack.com/" target="_blank" rel="noopener noreferrer" className={styles.link}>writing</a>), (<a href="https://www.youtube.com/channel/UCqv7gk4p_rB4nRz0j7B5yFA" target="_blank" rel="noopener noreferrer" className={styles.link}>making videos</a>), (<a href="#" className={styles.link} data-action="show-projects">some side projects</a>), and continuous learning.
+    Designer and amateur developer with over 12 years of experience in software design. Interested in computer history and media. Currently working in financial software design and pursuing (<a href="https://interfacestudies.substack.com/" target="_blank" rel="noopener noreferrer" className={styles.link}>writing</a>), (<a href="https://www.youtube.com/channel/UCqv7gk4p_rB4nRz0j7B5yFA" target="_blank" rel="noopener noreferrer" className={styles.link}>making videos</a>), (<a href="#" className={styles.link} data-action="show-projects">some side projects</a>), and continuous learning.
   </>,
   <>
     Find me on: (<a href="https://linkedin.com/in/mskayyali" target="_blank" rel="noopener noreferrer" className={styles.link}>LinkedIn</a>), (<a href="https://www.threads.net/@kayyalims" target="_blank" rel="noopener noreferrer" className={styles.link}>Threads</a>), (<a href="mailto:mskayyali@me.com" className={styles.link}>Email</a>)
