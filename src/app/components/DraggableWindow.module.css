@@ -1,0 +1,139 @@
+.window {
+  position: absolute;
+  background: rgba(16, 16, 16, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(34, 180, 85, 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+  user-select: none;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  touch-action: none;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+/* Mobile styles */
+.window.mobile {
+  width: 100% !important;
+  height: 100% !important;
+  position: fixed !important;
+  inset: 0 !important;
+  transform: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  z-index: 100 !important;
+  margin: 0 !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+
+.window:hover {
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.4),
+    0 3px 12px rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  border-color: rgba(34, 180, 85, 0.3);
+}
+
+.titleBar {
+  height: 40px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(34, 180, 85, 0.1);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  justify-content: space-between;
+  touch-action: none;
+  cursor: grab;
+}
+
+/* Mobile title bar */
+.mobile .titleBar {
+  cursor: default;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(16, 16, 16, 0.95);
+}
+
+.titleBar:active {
+  cursor: grabbing;
+}
+
+.mobile .titleBar:active {
+  cursor: default;
+}
+
+.title {
+  color: rgba(255, 255, 255, 0.7);
+  font-family: var(--font-geist-mono);
+  font-size: 14px;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  z-index: 1;
+}
+
+.closeButton:hover {
+  background: rgba(34, 180, 85, 0.1);
+  color: #22b455;
+}
+
+.content {
+  height: calc(100% - 40px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile content */
+.mobile .content {
+  height: calc(100vh - 40px);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Scrollbar Styling */
+.content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.content::-webkit-scrollbar-thumb {
+  background-color: rgba(34, 180, 85, 0.2);
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(34, 180, 85, 0.3);
+}
+
+/* Mobile scrollbar */
+@media (max-width: 768px) {
+  .content::-webkit-scrollbar {
+    width: 3px;
+  }
+} 
