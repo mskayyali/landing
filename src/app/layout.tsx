@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Geist_Mono } from 'next/font/google';
+import { JetBrains_Mono } from 'next/font/google';
 import "./globals.css";
 
-const geistMono = Geist_Mono({
+const jetBrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-geist-mono',
 });
@@ -40,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={geistMono.variable}>
+    <html lang="en" className={jetBrainsMono.variable}>
       <body suppressHydrationWarning>
         {children}
       </body>
