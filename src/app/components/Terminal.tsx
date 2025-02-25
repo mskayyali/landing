@@ -14,7 +14,7 @@ const TerminalUI = dynamic(() => import('react-terminal-ui').then(mod => mod.def
   ssr: false
 });
 
-type TerminalResponse = Array<string | React.ReactElement>;
+type TerminalResponse = (string | JSX.Element)[];
 
 const bootSequence = [];
 
@@ -23,12 +23,15 @@ const welcomeMessage = [
   'Saleh Kayyali',
   'Product & User Experience Designer',
   '',
-  <>
-    London-based designer and amateur developer with 12+ years of experience in software design. Currently working in financial software design and pursuing (<a href="https://interfacestudies.substack.com/" target="_blank" rel="noopener noreferrer" className={styles.link}>writing</a>), (<a href="https://www.youtube.com/channel/UCqv7gk4p_rB4nRz0j7B5yFA" target="_blank" rel="noopener noreferrer" className={styles.link}>making videos</a>), (<a href="#" className={styles.link} data-action="show-projects">some side projects</a>), and continuous learning.
-  </>,
-  <>
-  Find me on: (<a href="https://linkedin.com/in/mskayyali" target="_blank" rel="noopener noreferrer" className={styles.link}>LinkedIn</a>), (<a href="https://www.threads.net/@kayyalims" target="_blank" rel="noopener noreferrer" className={styles.link}>Threads</a>), (<a href="mailto:mskayyali@me.com" className={styles.link}>Email</a>)
-</>,
+  'London-based designer and amateur developer with 12+ years of experience in software design. Currently working in financial software design and pursuing:',
+  'Writing: [https://interfacestudies.substack.com/]',
+  'Videos: [https://www.youtube.com/channel/UCqv7gk4p_rB4nRz0j7B5yFA]',
+  'Side Projects (type "projects" to view)',
+  '',
+  'Find me on:',
+  'LinkedIn: [https://linkedin.com/in/mskayyali]',
+  'Threads: [https://www.threads.net/@kayyalims]',
+  'Email: [mailto:mskayyali@me.com]',
   '',
   'Type "help" to see available commands.'
 ];
@@ -50,27 +53,65 @@ export default function TerminalComponent() {
   const [windowPosition, setWindowPosition] = useState({ x: 0, y: 0 });
   const [isLoading, setIsLoading] = useState(true);
   const [currentTheme, setCurrentTheme] = useState<Theme>(themes[0]);
+  const [isMobile, setIsMobile] = useState(false);
   const keyCounterRef = useRef(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const themeIndexRef = useRef(0);
 
-  // Update position when window resizes
+  const processTerminalLine = (line: string | JSX.Element): string | JSX.Element => {
+    // If line is not a string, return it as is
+    if (typeof line !== 'string') {
+      return line;
+    }
+
+    // Check if line contains a URL in square brackets
+    const urlMatch = line.match(/\[(.*?)\]/);
+    if (urlMatch) {
+      const url = urlMatch[1];
+      const textBeforeUrl = line.split('[')[0].trim();
+      return (
+        <span>
+          {textBeforeUrl}{' '}
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.link}
+            onClick={(e) => {
+              if (url.startsWith('mailto:')) {
+                e.preventDefault();
+                window.location.href = url;
+              }
+            }}
+          >
+            {url}
+          </a>
+        </span>
+      );
+    }
+    return line;
+  };
+
+  // Update position and mobile state when window resizes
   useEffect(() => {
+    if (!isClient) return;
+
     const handleResize = () => {
-      const width = window.innerWidth > 800 ? 800 : window.innerWidth - 32; // 32px for padding
+      const width = window.innerWidth > 800 ? 800 : window.innerWidth - 32;
       const height = window.innerWidth > 768 ? 600 : window.innerHeight - 32;
       const x = Math.max(0, Math.floor((window.innerWidth - width) / 2));
       const y = Math.max(0, Math.floor((window.innerHeight - height) / 2));
       setWindowPosition({ x, y });
+      setIsMobile(window.innerWidth <= 768);
     };
 
-    // Initial position
+    // Initial position and mobile state
     handleResize();
 
     // Add resize listener
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [isClient]);
 
   const getNextKey = () => {
     keyCounterRef.current += 1;
@@ -80,7 +121,7 @@ export default function TerminalComponent() {
   const initializeWelcomeMessage = () => {
     return welcomeMessage.map(line => (
       <TerminalOutput key={getNextKey()}>
-        {line}
+        {processTerminalLine(line)}
       </TerminalOutput>
     ));
   };
@@ -103,7 +144,7 @@ export default function TerminalComponent() {
     // Start with empty terminal
     setTerminalLineData([]);
 
-    const showNextLine = (messages: Array<string | ReactNode>, delay: number = 80) => {
+    const showNextLine = (messages: (string | JSX.Element)[], delay: number = 80) => {
       if (!isActive || currentIndex >= messages.length) {
         setIsLoading(false);
         return;
@@ -112,7 +153,7 @@ export default function TerminalComponent() {
       setTerminalLineData(prev => [
         ...prev,
         <TerminalOutput key={getNextKey()}>
-          {messages[currentIndex]}
+          {processTerminalLine(messages[currentIndex])}
         </TerminalOutput>
       ]);
       currentIndex++;
@@ -162,9 +203,9 @@ export default function TerminalComponent() {
       case 'links':
         response = [
           'My Links:',
-          <>▸ <a href="https://linkedin.com/in/mskayyali" target="_blank" rel="noopener noreferrer" className={styles.link}>LinkedIn</a></>,
-          <>▸ <a href="https://www.threads.net/@kayyalims" target="_blank" rel="noopener noreferrer" className={styles.link}>Threads</a></>,
-          <>▸ <a href="mailto:mskayyali@me.com" className={styles.link}>Email</a></>
+          'LinkedIn: [https://linkedin.com/in/mskayyali]',
+          'Threads: [https://www.threads.net/@kayyalims]',
+          'Email: [mailto:mskayyali@me.com]'
         ];
         break;
       case 'clear':
@@ -176,7 +217,7 @@ export default function TerminalComponent() {
 
     const newLines = response.map(line => (
       <TerminalOutput key={getNextKey()}>
-        {line}
+        {processTerminalLine(line)}
       </TerminalOutput>
     ));
     setTerminalLineData(prev => [...prev, ...newLines]);
@@ -214,7 +255,7 @@ export default function TerminalComponent() {
           title="Terminal"
           className={styles.terminal}
           initialPosition={windowPosition}
-          disableDragging={window.innerWidth <= 768}
+          disableDragging={isMobile}
           currentTheme={currentTheme}
         >
           {!isClient || isLoading ? (
@@ -240,7 +281,7 @@ export default function TerminalComponent() {
           <ProjectsWindow
             markdownContent={markdownContent}
             onClose={() => setIsPanelOpen(false)}
-            disableDragging={window.innerWidth <= 768}
+            disableDragging={isMobile}
             currentTheme={currentTheme}
           />
         )}
