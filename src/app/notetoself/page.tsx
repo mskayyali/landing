@@ -27,14 +27,13 @@ export default function NotesToSelf() {
 
   return (
     <div style={{ 
-      height: '100vh', 
+      minHeight: '100vh', 
       backgroundColor: '#000', 
       color: '#fff', 
-      fontFamily: 'ui-monospace, "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace',
-      overflow: 'hidden'
+      fontFamily: 'ui-monospace, "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace'
     }}>
       <div style={{ 
-        height: '100%',
+        minHeight: '100vh',
         maxWidth: '1400px', 
         margin: '0 auto',
         padding: '2rem',
@@ -220,30 +219,30 @@ export default function NotesToSelf() {
               ))}
             </div>
             
-                         {/* Carousel Dots */}
-             <div style={{
-               display: 'flex',
-               gap: '0.75rem',
-               alignItems: 'center'
-             }}>
-               {screenshots.map((_, index) => (
-                 <button
-                   key={index}
-                   onClick={() => handleDotClick(index)}
-                   style={{
-                     width: '12px',
-                     height: '12px',
-                     borderRadius: '50%',
-                     border: 'none',
-                     backgroundColor: currentImageIndex === index ? '#f9533d' : '#ffffff',
-                     cursor: 'pointer',
-                     transition: 'background-color 0.3s',
-                     outline: 'none'
-                   }}
-                   aria-label={`Go to screenshot ${index + 1}`}
-                 />
-               ))}
-             </div>
+            {/* Carousel Dots */}
+            <div style={{
+              display: 'flex',
+              gap: '0.75rem',
+              alignItems: 'center'
+            }}>
+              {screenshots.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleDotClick(index)}
+                  style={{
+                    width: '12px',
+                    height: '12px',
+                    borderRadius: '50%',
+                    border: 'none',
+                    backgroundColor: currentImageIndex === index ? '#f9533d' : '#ffffff',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.3s',
+                    outline: 'none'
+                  }}
+                  aria-label={`Go to screenshot ${index + 1}`}
+                />
+              ))}
+            </div>
           </div>
         </div>
         
@@ -253,18 +252,20 @@ export default function NotesToSelf() {
             display: 'flex', 
             flexDirection: 'column', 
             gap: '2rem',
-            height: '100%',
-            justifyContent: 'space-between',
-            textAlign: 'center'
+            minHeight: '100vh',
+            justifyContent: 'flex-start',
+            paddingTop: '2rem',
+            paddingBottom: '2rem'
           }}>
             
             {/* Logo and Title */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', textAlign: 'left' }}>
               <div style={{ 
                 width: '60px', 
                 height: '60px', 
                 borderRadius: '12px',
-                overflow: 'hidden'
+                overflow: 'hidden',
+                flexShrink: 0
               }}>
                 <img 
                   src="/images/ntslogo.png" 
@@ -277,68 +278,162 @@ export default function NotesToSelf() {
                 />
               </div>
               <h1 style={{ 
-                fontSize: '2rem', 
+                fontSize: '2.5rem', 
                 fontWeight: 'bold', 
                 margin: 0,
-                lineHeight: '1.2' 
+                lineHeight: '1.1' 
               }}>
-                Note to Self
+                Note to Self Memos
               </h1>
             </div>
             
-            {/* Image */}
-            <div style={{
-              position: 'relative',
-              width: '200px',
-              height: '350px',
-              alignSelf: 'center',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
+            {/* Description */}
+            <p style={{ 
+              fontSize: '1.125rem', 
+              color: '#d1d5db', 
+              lineHeight: '1.6',
+              margin: 0,
+              textAlign: 'left'
             }}>
-              {screenshots.map((screenshot, index) => (
-                <img 
-                  key={index}
-                  src={screenshot}
-                  alt={`App Screenshot ${index + 1}`}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'contain',
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    opacity: currentImageIndex === index ? 1 : 0,
-                    transition: 'opacity 0.5s ease-in-out'
-                  }}
-                />
-              ))}
+              Transform your voice into organized, searchable notes with complete privacy. 
+              Offline, On-device transcription and smart organization.
+            </p>
+            
+            {/* Centered Image Carousel */}
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '1.5rem',
+              margin: '2rem 0'
+            }}>
+              {/* Image Container */}
+              <div style={{
+                position: 'relative',
+                width: '280px',
+                height: '500px',
+                maxWidth: '80vw',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                {screenshots.map((screenshot, index) => (
+                  <img 
+                    key={index}
+                    src={screenshot}
+                    alt={`App Screenshot ${index + 1}`}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      opacity: currentImageIndex === index ? 1 : 0,
+                      transition: 'opacity 0.5s ease-in-out'
+                    }}
+                  />
+                ))}
+              </div>
+              
+              {/* Carousel Dots */}
+              <div style={{
+                display: 'flex',
+                gap: '0.75rem',
+                alignItems: 'center'
+              }}>
+                {screenshots.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleDotClick(index)}
+                    style={{
+                      width: '12px',
+                      height: '12px',
+                      borderRadius: '50%',
+                      border: 'none',
+                      backgroundColor: currentImageIndex === index ? '#f9533d' : '#ffffff',
+                      cursor: 'pointer',
+                      transition: 'background-color 0.3s',
+                      outline: 'none'
+                    }}
+                    aria-label={`Go to screenshot ${index + 1}`}
+                  />
+                ))}
+              </div>
             </div>
             
-            {/* CTA */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'center' }}>
-              <p style={{ 
-                fontSize: '1rem', 
-                color: '#d1d5db', 
+            {/* Features */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', textAlign: 'left' }}>
+              <h3 style={{ 
+                fontSize: '1.125rem', 
+                fontWeight: '600', 
+                color: '#fff',
                 margin: 0 
               }}>
-                Private AI voice notes
+                Key Features:
+              </h3>
+              <ul style={{ 
+                color: '#9ca3af', 
+                fontSize: '0.9rem',
+                margin: 0,
+                paddingLeft: 0,
+                listStyle: 'none',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.5rem'
+              }}>
+                <li>• Offline AI transcription with multilingual support</li>
+                <li>• Smart organization with automatic tagging</li>
+                <li>• Complete privacy - no data leaves your device</li>
+                <li>• Works completely offline after initial setup</li>
+              </ul>
+            </div>
+            
+            {/* CTA and Privacy */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', textAlign: 'left' }}>
+              <p style={{ 
+                fontSize: '0.9rem', 
+                color: '#6b7280',
+                margin: 0,
+                lineHeight: '1.5'
+              }}>
+                Perfect for on-the-spot thoughts and anyone who wants to 
+                capture and organize their thoughts privately and intelligently.
               </p>
               
-              <Link 
-                href="https://apps.apple.com/app/note-to-self-memos/id1234567890" 
-                target="_blank"
-              >
-                <img 
-                  src="/images/appstore.svg" 
-                  alt="Download on the App Store" 
+              {/* App Store Download */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <Link 
+                  href="https://apps.apple.com/app/note-to-self-memos/id1234567890" 
+                  target="_blank"
                   style={{
-                    height: '50px',
-                    width: 'auto'
+                    display: 'inline-block',
+                    width: 'fit-content'
                   }}
-                />
-              </Link>
+                >
+                  <img 
+                    src="/images/appstore.svg" 
+                    alt="Download on the App Store" 
+                    style={{
+                      height: '50px',
+                      width: 'auto'
+                    }}
+                  />
+                </Link>
+                
+                <Link 
+                  href="/notetoself/privacypolicy" 
+                  style={{
+                    fontSize: '0.875rem',
+                    color: '#6b7280',
+                    textDecoration: 'underline',
+                    width: 'fit-content'
+                  }}
+                >
+                  Privacy Policy
+                </Link>
+              </div>
             </div>
           </div>
         </div>
