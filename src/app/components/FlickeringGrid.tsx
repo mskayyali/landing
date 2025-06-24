@@ -33,6 +33,7 @@ const FlickeringGrid: React.FC<FlickeringGridProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState(false);
   const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
+  const [isMounted, setIsMounted] = useState(false);
 
   const memoizedColor = useMemo(() => {
     const toRGBA = (color: string) => {
@@ -113,6 +114,13 @@ const FlickeringGrid: React.FC<FlickeringGridProps> = ({
   );
 
   useEffect(() => {
+    const timer = setTimeout(() => setIsMounted(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!isMounted) return;
+    
     const canvas = canvasRef.current;
     const container = containerRef.current;
     if (!canvas || !container) return;
@@ -176,7 +184,7 @@ const FlickeringGrid: React.FC<FlickeringGridProps> = ({
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
     };
-  }, [setupCanvas, updateSquares, drawGrid, width, height, isInView]);
+  }, [setupCanvas, updateSquares, drawGrid, width, height, isInView, isMounted]);
 
   return (
     <div ref={containerRef} className={className}>

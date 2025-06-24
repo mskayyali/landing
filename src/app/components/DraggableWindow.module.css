@@ -136,4 +136,149 @@
   .content::-webkit-scrollbar {
     width: 3px;
   }
+}
+
+/* Mobile Responsiveness */
+
+/* Very small devices (under 320px) */
+@media (max-width: 319px) {
+  .window.mobile {
+    width: 100% !important;
+    height: 100% !important;
+    position: fixed !important;
+    inset: 0 !important;
+    transform: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    z-index: 100 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    max-height: none !important;
+  }
+
+  .mobile .titleBar {
+    height: 44px;
+    padding: 0 12px;
+    font-size: 13px;
+  }
+
+  .mobile .content {
+    height: calc(100vh - 44px);
+    padding-bottom: calc(env(safe-area-inset-bottom) + 0.5rem);
+  }
+
+  .content::-webkit-scrollbar {
+    width: 2px;
+  }
+}
+
+/* Small mobile devices (320px - 480px) */
+@media (min-width: 320px) and (max-width: 480px) {
+  .window.mobile {
+    width: 100% !important;
+    height: 100% !important;
+    position: fixed !important;
+    inset: 0 !important;
+    transform: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    z-index: 100 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    max-height: none !important;
+  }
+
+  .mobile .titleBar {
+    height: 44px;
+    padding: 0 16px;
+  }
+
+  .mobile .content {
+    height: calc(100vh - 44px);
+    padding-bottom: calc(env(safe-area-inset-bottom) + 0.5rem);
+  }
+}
+
+/* Medium mobile devices (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .window.mobile {
+    width: calc(100% - 1rem) !important;
+    height: calc(100vh - 1rem) !important;
+    position: fixed !important;
+    inset: 0.5rem !important;
+    transform: none !important;
+    border: 1px solid var(--theme-border) !important;
+    border-radius: 8px !important;
+    z-index: 100 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    max-height: none !important;
+  }
+
+  .mobile .titleBar {
+    height: 40px;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .mobile .content {
+    height: calc(100vh - 1rem - 40px);
+    padding-bottom: calc(env(safe-area-inset-bottom) + 0.5rem);
+  }
+}
+
+/* Landscape orientation optimizations */
+@media (max-width: 768px) and (orientation: landscape) {
+  .window.mobile {
+    width: calc(100vw - 1rem) !important;
+    height: calc(100vh - 1rem) !important;
+    inset: 0.5rem !important;
+    border-radius: 6px !important;
+  }
+
+  .mobile .titleBar {
+    height: 36px;
+    padding: 0 12px;
+  }
+
+  .mobile .content {
+    height: calc(100vh - 1rem - 36px);
+  }
+}
+
+/* Touch interaction improvements */
+@media (max-width: 768px) {
+  .window.mobile {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: pan-y;
+  }
+
+  .closeButton {
+    min-height: 44px;
+    min-width: 44px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .content::-webkit-scrollbar {
+    width: 3px;
+  }
+  
+  .content::-webkit-scrollbar-thumb {
+    background-color: rgba(var(--theme-primary), 0.3);
+    border-radius: 2px;
+  }
+}
+
+/* High DPI displays */
+@media (max-width: 768px) and (-webkit-min-device-pixel-ratio: 2) {
+  .window.mobile {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .title {
+    -webkit-font-smoothing: antialiased;
+  }
 } 

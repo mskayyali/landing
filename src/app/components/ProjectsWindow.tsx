@@ -18,11 +18,29 @@ export default function ProjectsWindow({
   disableDragging = false,
   currentTheme 
 }: ProjectsWindowProps) {
-  // Calculate initial position - higher up vertically, slightly to the right
-  const initialPosition = {
-    x: Math.max(0, (window.innerWidth / 2) - 100), // Shifted right to overlap with terminal
-    y: Math.max(0, (window.innerHeight - 600) / 2 - 100) // Lifted higher up
+  // Calculate responsive initial position
+  const getInitialPosition = () => {
+    if (typeof window === 'undefined') return { x: 0, y: 0 };
+    
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+    
+    if (screenWidth <= 480) {
+      // Small mobile - full screen
+      return { x: 0, y: 0 };
+    } else if (screenWidth <= 768) {
+      // Medium mobile/tablet - small inset
+      return { x: 8, y: 8 };
+    } else {
+      // Desktop - offset from terminal window
+      return {
+        x: Math.max(0, (screenWidth / 2) - 100),
+        y: Math.max(0, (screenHeight - 600) / 2 - 100)
+      };
+    }
   };
+  
+  const initialPosition = getInitialPosition();
 
   return (
     <DraggableWindow

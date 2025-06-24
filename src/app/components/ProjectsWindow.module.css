@@ -177,4 +177,223 @@
   to {
     opacity: 1;
   }
+}
+
+/* Enhanced Mobile Responsiveness */
+
+/* Very small devices (under 320px) */
+@media (max-width: 319px) {
+  .projectsWindow {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    margin: 0 !important;
+    position: fixed !important;
+    inset: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+  }
+
+  .markdownContent {
+    height: calc(100vh - 44px);
+    padding: 0.75rem;
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .markdownContent :global(h1) {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .markdownContent :global(h2) {
+    font-size: 1rem;
+    margin: 1.5rem 0 0.75rem;
+  }
+
+  .markdownContent :global(h3) {
+    font-size: 0.9rem;
+    margin: 1rem 0 0.5rem;
+  }
+
+  .markdownContent :global(p) {
+    margin-bottom: 0.75rem;
+  }
+
+  .markdownContent :global(ul),
+  .markdownContent :global(ol) {
+    margin: 0.75rem 0 1rem;
+    padding-left: 1.5rem;
+  }
+
+  .markdownContent :global(img) {
+    margin: 1rem 0;
+  }
+}
+
+/* Small mobile devices (320px - 480px) */
+@media (min-width: 320px) and (max-width: 480px) {
+  .projectsWindow {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    margin: 0 !important;
+    position: fixed !important;
+    inset: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+  }
+
+  .markdownContent {
+    height: calc(100vh - 44px);
+    padding: 1rem;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    font-size: 13px;
+  }
+
+  .markdownContent :global(h1) {
+    font-size: 1.2rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .markdownContent :global(h2) {
+    font-size: 1.1rem;
+    margin: 1.75rem 0 0.875rem;
+  }
+
+  .markdownContent :global(h3) {
+    font-size: 1rem;
+    margin: 1.25rem 0 0.625rem;
+  }
+}
+
+/* Medium mobile devices (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .projectsWindow {
+    width: calc(100% - 1rem) !important;
+    height: calc(100vh - 1rem) !important;
+    max-width: none !important;
+    max-height: none !important;
+    margin: 0.5rem !important;
+    position: fixed !important;
+    inset: 0.5rem !important;
+    border-radius: 8px !important;
+  }
+
+  .markdownContent {
+    height: calc(100vh - 1rem - 40px);
+    padding: 1.25rem;
+    padding-bottom: calc(1.25rem + env(safe-area-inset-bottom));
+    font-size: 14px;
+  }
+
+  .markdownContent :global(h1) {
+    font-size: 1.3rem;
+  }
+
+  .markdownContent :global(h2) {
+    font-size: 1.15rem;
+  }
+
+  .markdownContent :global(h3) {
+    font-size: 1rem;
+  }
+}
+
+/* Large tablets (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .projectsWindow {
+    width: 650px;
+    max-height: 85vh;
+  }
+
+  .markdownContent {
+    height: calc(85vh - 40px);
+    padding: 1.75rem;
+    font-size: 14px;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .projectsWindow {
+    width: calc(100vw - 1rem) !important;
+    height: calc(100vh - 1rem) !important;
+    margin: 0.5rem !important;
+    border-radius: 6px !important;
+  }
+
+  .markdownContent {
+    height: calc(100vh - 1rem - 36px);
+    padding: 1rem;
+    font-size: 13px;
+  }
+
+  .markdownContent :global(h1) {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .markdownContent :global(h2) {
+    font-size: 1.1rem;
+    margin: 1.5rem 0 0.75rem;
+  }
+
+  .markdownContent :global(ul),
+  .markdownContent :global(ol) {
+    margin: 0.75rem 0 1rem;
+  }
+}
+
+/* Touch and interaction improvements */
+@media (max-width: 768px) {
+  .markdownContent {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  .markdownContent :global(a) {
+    min-height: 44px;
+    display: inline-block;
+    padding: 2px 0;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .markdownContent :global(img) {
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+  }
+
+  /* Better scrollbar for touch devices */
+  .markdownContent::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  .markdownContent::-webkit-scrollbar-thumb {
+    background-color: var(--theme-primary);
+    opacity: 0.3;
+    border-radius: 2px;
+  }
+
+  .markdownContent::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+/* High DPI mobile displays */
+@media (max-width: 768px) and (-webkit-min-device-pixel-ratio: 2) {
+  .markdownContent {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .markdownContent :global(h1),
+  .markdownContent :global(h2),
+  .markdownContent :global(h3) {
+    -webkit-font-smoothing: antialiased;
+  }
 } 
