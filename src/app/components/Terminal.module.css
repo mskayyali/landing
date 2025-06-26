@@ -185,6 +185,34 @@
   opacity: 0.8;
 }
 
+/* Project Section */
+.projectContainer {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.projectLogo {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.projectTitle {
+  color: var(--theme-text);
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.projectDescription {
+  color: var(--theme-dim-text);
+  font-size: 0.9em;
+  margin-bottom: 0.5rem;
+}
+
 /* Loading State */
 .terminalLoadingContent {
   color: var(--theme-dim-text);
@@ -255,6 +283,23 @@
   .link {
     padding-bottom: 2px;
     border-bottom-width: 1px;
+  }
+
+  .projectContainer {
+    gap: 0.75rem;
+  }
+
+  .projectLogo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .projectTitle {
+    font-size: 0.95em;
+  }
+
+  .projectDescription {
+    font-size: 0.85em;
   }
 }
 

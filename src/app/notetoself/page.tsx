@@ -55,17 +55,17 @@ export default function NotesToSelf() {
           <div style={{ 
             display: 'flex', 
             flexDirection: 'column', 
-            gap: '2rem',
+            gap: '1.5rem',
             height: '100%',
             justifyContent: 'center',
             paddingRight: '2rem'
           }}>
             
             {/* Logo and Title */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               <div style={{ 
-                width: '80px', 
-                height: '80px', 
+                width: '70px', 
+                height: '70px', 
                 borderRadius: '12px',
                 overflow: 'hidden',
                 flexShrink: 0
@@ -81,7 +81,7 @@ export default function NotesToSelf() {
                 />
               </div>
               <h1 style={{ 
-                fontSize: 'clamp(2rem, 4vw, 3.5rem)', 
+                fontSize: 'clamp(1.75rem, 3.5vw, 2.75rem)', 
                 fontWeight: 'bold', 
                 margin: 0,
                 lineHeight: '1.1' 
@@ -92,19 +92,18 @@ export default function NotesToSelf() {
             
             {/* Description */}
             <p style={{ 
-              fontSize: 'clamp(1rem, 2vw, 1.25rem)', 
+              fontSize: 'clamp(0.9rem, 1.8vw, 1.125rem)', 
               color: '#d1d5db', 
-              lineHeight: '1.6',
+              lineHeight: '1.5',
               margin: 0 
             }}>
-              Transform your voice into organized, searchable notes with complete privacy. 
-              Offline, On-device transcription and smart organization.
+              Effortlessly turn your voice into organized, searchable notes—always private and secure. Enjoy offline, on-device transcription and intelligent note management. Completely FREE!
             </p>
             
             {/* Features */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <h3 style={{ 
-                fontSize: 'clamp(1rem, 2vw, 1.125rem)', 
+                fontSize: 'clamp(0.9rem, 1.8vw, 1rem)', 
                 fontWeight: '600', 
                 color: '#fff',
                 margin: 0 
@@ -113,13 +112,13 @@ export default function NotesToSelf() {
               </h3>
               <ul style={{ 
                 color: '#9ca3af', 
-                fontSize: 'clamp(0.8rem, 1.5vw, 0.875rem)',
+                fontSize: 'clamp(0.75rem, 1.4vw, 0.8rem)',
                 margin: 0,
                 paddingLeft: 0,
                 listStyle: 'none',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '0.5rem'
+                gap: '0.4rem'
               }}>
                 <li>• Offline AI transcription with multilingual support</li>
                 <li>• Smart organization with automatic tagging</li>
@@ -128,45 +127,99 @@ export default function NotesToSelf() {
               </ul>
             </div>
             
-            {/* CTA and Privacy */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            {/* CTA Section */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               <p style={{ 
-                fontSize: 'clamp(0.8rem, 1.5vw, 0.875rem)', 
+                fontSize: 'clamp(0.75rem, 1.4vw, 0.8rem)', 
                 color: '#6b7280',
                 margin: 0,
-                lineHeight: '1.5' 
+                lineHeight: '1.4' 
               }}>
                 Perfect for on-the-spot thoughts and anyone who wants to 
                 capture and organize their thoughts privately and intelligently.
               </p>
               
-              {/* App Store Download */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <Link 
-                  href="https://apps.apple.com/app/note-to-self-memos/id1234567890" 
-                  target="_blank"
-                  style={{
-                    display: 'inline-block',
-                    width: 'fit-content'
-                  }}
-                >
-                  <img 
-                    src="/images/appstore.svg" 
-                    alt="Download on the App Store" 
-                    style={{
-                      height: '60px',
-                      width: 'auto',
-                      transition: 'opacity 0.2s'
-                    }}
-                    onMouseOver={(e) => e.currentTarget.style.opacity = '0.8'}
-                    onMouseOut={(e) => e.currentTarget.style.opacity = '1'}
-                  />
-                </Link>
+              {/* App Store Button and QR Code Side by Side */}
+              <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem', alignItems: 'stretch' }}>
+                {/* Left Column - App Store + Coffee Button */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
+                  <div style={{ width: '180px', height: '50px' }}>
+                    <Link 
+                      href="https://apps.apple.com/gb/app/note-to-self-memos/id6747362903" 
+                      target="_blank"
+                      style={{
+                        display: 'block',
+                        width: '180px',
+                        height: '50px'
+                      }}
+                    >
+                      <img 
+                        src="/images/appstore.svg" 
+                        alt="Download on the App Store" 
+                        style={{
+                          width: '180px',
+                          height: '50px',
+                          objectFit: 'contain',
+                          objectPosition: 'left center',
+                          transition: 'opacity 0.2s'
+                        }}
+                        onMouseOver={(e) => e.currentTarget.style.opacity = '0.8'}
+                        onMouseOut={(e) => e.currentTarget.style.opacity = '1'}
+                      />
+                    </Link>
+                  </div>
+                  
+                  <div style={{ width: '180px', height: '50px' }}>
+                    <Link 
+                      href="https://coff.ee/mskayyali" 
+                      target="_blank"
+                      style={{
+                        display: 'block',
+                        width: '180px',
+                        height: '50px'
+                      }}
+                    >
+                      <img 
+                        src="/images/bmc-button.svg" 
+                        alt="Buy me a coffee" 
+                        style={{
+                          width: '180px',
+                          height: '50px',
+                          objectFit: 'contain',
+                          objectPosition: 'left center',
+                          transition: 'opacity 0.2s'
+                        }}
+                        onMouseOver={(e) => e.currentTarget.style.opacity = '0.8'}
+                        onMouseOut={(e) => e.currentTarget.style.opacity = '1'}
+                      />
+                    </Link>
+                  </div>
+                </div>
                 
+                {/* Right Column - QR Code */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <img 
+                    src="/images/qrcode.jpg" 
+                    alt="QR Code to download Note to Self" 
+                    style={{
+                      width: '110px',
+                      height: '110px',
+                      objectFit: 'contain',
+                      borderRadius: '6px',
+                      backgroundColor: '#fff',
+                      padding: '6px',
+                      flexShrink: 0
+                    }}
+                  />
+                </div>
+              </div>
+              
+              {/* Privacy Policy */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <Link 
                   href="/notetoself/privacypolicy" 
                   style={{
-                    fontSize: 'clamp(0.75rem, 1.5vw, 0.875rem)',
+                    fontSize: '0.75rem',
                     color: '#6b7280',
                     textDecoration: 'underline',
                     width: 'fit-content'
@@ -259,11 +312,11 @@ export default function NotesToSelf() {
           }}>
             
             {/* Logo and Title */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', textAlign: 'left' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', textAlign: 'left' }}>
               <div style={{ 
-                width: '60px', 
-                height: '60px', 
-                borderRadius: '12px',
+                width: '50px', 
+                height: '50px', 
+                borderRadius: '10px',
                 overflow: 'hidden',
                 flexShrink: 0
               }}>
@@ -278,7 +331,7 @@ export default function NotesToSelf() {
                 />
               </div>
               <h1 style={{ 
-                fontSize: '2.5rem', 
+                fontSize: '2rem', 
                 fontWeight: 'bold', 
                 margin: 0,
                 lineHeight: '1.1' 
@@ -289,9 +342,9 @@ export default function NotesToSelf() {
             
             {/* Description */}
             <p style={{ 
-              fontSize: '1.125rem', 
+              fontSize: '1rem', 
               color: '#d1d5db', 
-              lineHeight: '1.6',
+              lineHeight: '1.5',
               margin: 0,
               textAlign: 'left'
             }}>
@@ -305,7 +358,7 @@ export default function NotesToSelf() {
               flexDirection: 'column',
               alignItems: 'center',
               gap: '1.5rem',
-              margin: '2rem 0'
+              margin: '1.5rem 0'
             }}>
               {/* Image Container */}
               <div style={{
@@ -364,9 +417,9 @@ export default function NotesToSelf() {
             </div>
             
             {/* Features */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', textAlign: 'left' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', textAlign: 'left' }}>
               <h3 style={{ 
-                fontSize: '1.125rem', 
+                fontSize: '1rem', 
                 fontWeight: '600', 
                 color: '#fff',
                 margin: 0 
@@ -375,13 +428,13 @@ export default function NotesToSelf() {
               </h3>
               <ul style={{ 
                 color: '#9ca3af', 
-                fontSize: '0.9rem',
+                fontSize: '0.85rem',
                 margin: 0,
                 paddingLeft: 0,
                 listStyle: 'none',
                 display: 'flex',
                 flexDirection: 'column',
-                gap: '0.5rem'
+                gap: '0.4rem'
               }}>
                 <li>• Offline AI transcription with multilingual support</li>
                 <li>• Smart organization with automatic tagging</li>
@@ -391,41 +444,98 @@ export default function NotesToSelf() {
             </div>
             
             {/* CTA and Privacy */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', textAlign: 'left' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem', textAlign: 'left' }}>
               <p style={{ 
-                fontSize: '0.9rem', 
+                fontSize: '0.85rem', 
                 color: '#6b7280',
                 margin: 0,
-                lineHeight: '1.5'
+                lineHeight: '1.4'
               }}>
                 Perfect for on-the-spot thoughts and anyone who wants to 
                 capture and organize their thoughts privately and intelligently.
               </p>
               
-              {/* App Store Download */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                <Link 
-                  href="https://apps.apple.com/app/note-to-self-memos/id1234567890" 
-                  target="_blank"
-                  style={{
-                    display: 'inline-block',
-                    width: 'fit-content'
-                  }}
-                >
+              {/* App Store Button and QR Code Side by Side */}
+              <div style={{ display: 'flex', flexDirection: 'row', gap: '1rem', alignItems: 'stretch' }}>
+                {/* Left Column - App Store + Coffee Button */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
+                  <div style={{ width: '180px', height: '50px' }}>
+                    <Link 
+                      href="https://apps.apple.com/gb/app/note-to-self-memos/id6747362903" 
+                      target="_blank"
+                      style={{
+                        display: 'block',
+                        width: '180px',
+                        height: '50px'
+                      }}
+                    >
+                      <img 
+                        src="/images/appstore.svg" 
+                        alt="Download on the App Store" 
+                        style={{
+                          width: '180px',
+                          height: '50px',
+                          objectFit: 'contain',
+                          objectPosition: 'left center',
+                          transition: 'opacity 0.2s'
+                        }}
+                        onMouseOver={(e) => e.currentTarget.style.opacity = '0.8'}
+                        onMouseOut={(e) => e.currentTarget.style.opacity = '1'}
+                      />
+                    </Link>
+                  </div>
+                  
+                  <div style={{ width: '180px', height: '50px' }}>
+                    <Link 
+                      href="https://coff.ee/mskayyali" 
+                      target="_blank"
+                      style={{
+                        display: 'block',
+                        width: '180px',
+                        height: '50px'
+                      }}
+                    >
+                      <img 
+                        src="/images/bmc-button.svg" 
+                        alt="Buy me a coffee" 
+                        style={{
+                          width: '180px',
+                          height: '50px',
+                          objectFit: 'contain',
+                          objectPosition: 'left center',
+                          transition: 'opacity 0.2s'
+                        }}
+                        onMouseOver={(e) => e.currentTarget.style.opacity = '0.8'}
+                        onMouseOut={(e) => e.currentTarget.style.opacity = '1'}
+                      />
+                    </Link>
+                  </div>
+                </div>
+                
+                {/* Right Column - QR Code */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <img 
-                    src="/images/appstore.svg" 
-                    alt="Download on the App Store" 
+                    src="/images/qrcode.jpg" 
+                    alt="QR Code to download Note to Self" 
                     style={{
-                      height: '50px',
-                      width: 'auto'
+                      width: '110px',
+                      height: '110px',
+                      objectFit: 'contain',
+                      borderRadius: '6px',
+                      backgroundColor: '#fff',
+                      padding: '6px',
+                      flexShrink: 0
                     }}
                   />
-                </Link>
-                
+                </div>
+              </div>
+              
+              {/* Privacy Policy */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <Link 
                   href="/notetoself/privacypolicy" 
                   style={{
-                    fontSize: '0.875rem',
+                    fontSize: '0.75rem',
                     color: '#6b7280',
                     textDecoration: 'underline',
                     width: 'fit-content'
