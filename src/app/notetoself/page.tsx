@@ -97,7 +97,7 @@ export default function NotesToSelf() {
               lineHeight: '1.5',
               margin: 0 
             }}>
-              Effortlessly turn your voice into organized, searchable notes—always private and secure. Enjoy offline, on-device transcription and intelligent note management. Completely FREE!
+              Effortlessly turn your voice into organised, searchable notes—always private and secure. Enjoy offline, on-device transcription and intelligent note management. Completely FREE!
             </p>
             
             {/* Features */}
@@ -136,7 +136,7 @@ export default function NotesToSelf() {
                 lineHeight: '1.4' 
               }}>
                 Perfect for on-the-spot thoughts and anyone who wants to 
-                capture and organize their thoughts privately and intelligently.
+                capture and organise their thoughts privately and intelligently.
               </p>
               
               {/* App Store Button and QR Code Side by Side */}
@@ -348,8 +348,7 @@ export default function NotesToSelf() {
               margin: 0,
               textAlign: 'left'
             }}>
-              Transform your voice into organized, searchable notes with complete privacy. 
-              Offline, On-device transcription and smart organization.
+              Effortlessly turn your voice into organised, searchable notes—always private and secure. Enjoy offline, on-device transcription and intelligent note management. Completely FREE!
             </p>
             
             {/* Centered Image Carousel */}
@@ -437,7 +436,7 @@ export default function NotesToSelf() {
                 gap: '0.4rem'
               }}>
                 <li>• Offline AI transcription with multilingual support</li>
-                <li>• Smart organization with automatic tagging</li>
+                <li>• Smart organisation with automatic tagging</li>
                 <li>• Complete privacy - no data leaves your device</li>
                 <li>• Works completely offline after initial setup</li>
               </ul>
@@ -452,7 +451,7 @@ export default function NotesToSelf() {
                 lineHeight: '1.4'
               }}>
                 Perfect for on-the-spot thoughts and anyone who wants to 
-                capture and organize their thoughts privately and intelligently.
+                capture and organise their thoughts privately and intelligently.
               </p>
               
               {/* App Store Button and QR Code Side by Side */}
