@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@formspree/react": "^3.0.0",
     "es-abstract": "^1.24.0",
     "is-glob": "^4.0.3",
     "nanoid": "^5.1.5",

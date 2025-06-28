@@ -1,12 +1,14 @@
 "use client";
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { TerminalOutput } from 'react-terminal-ui';
 import DraggableWindow from './DraggableWindow';
 import ProjectsWindow from './ProjectsWindow';
+import ContactWindow from './ContactWindow';
 import { FlickeringGrid } from './FlickeringGrid';
 import styles from './Terminal.module.css';
 import { themes, Theme } from '../themes';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 const bootSequence = [];
 
@@ -18,6 +20,9 @@ const welcomeMessage = [
   </>,
   <>
     Find me on: (<a href="https://linkedin.com/in/mskayyali" target="_blank" rel="noopener noreferrer" className={styles.link}>LinkedIn</a>), (<a href="http://x.com/mskayyali" target="_blank" rel="noopener noreferrer" className={styles.link}>X</a>)
+  </>,
+  <>
+    Feel free to <a href="#" className={styles.link} data-action="show-contact">Contact me</a> anytime :) would love to collaborate.
   </>,
   '',
   'Latest Project',
@@ -45,10 +50,18 @@ const backgroundConfig = {
 export default function TerminalComponent() {
   const [mounted, setMounted] = useState(false);
   const [terminalLineData, setTerminalLineData] = useState<React.ReactElement[]>([]);
-  const [isPanelOpen, setIsPanelOpen] = useState(false);
-  const [markdownContent, setMarkdownContent] = useState('');
+  const [isProjectsOpen, setIsProjectsOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
   const [windowPosition, setWindowPosition] = useState({ x: 0, y: 0 });
   const [currentTheme, setCurrentTheme] = useState<Theme>(themes[0]);
+  const [projectsWindowPosition, setProjectsWindowPosition] = useState({
+    x: 50,
+    y: 50,
+  });
+  const [contactWindowPosition, setContactWindowPosition] = useState({
+    x: 100,
+    y: 100,
+  });
   const [isMobile, setIsMobile] = useState(false);
   const keyCounterRef = useRef(0);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -93,12 +106,6 @@ export default function TerminalComponent() {
   // Handle mounting and setup
   useEffect(() => {
     setMounted(true);
-    
-    // Load markdown content
-    fetch('/content/side-projects.md')
-      .then(res => res.text())
-      .then(setMarkdownContent)
-      .catch(console.error);
 
     // Set up window positioning
     const handleResize = () => {
@@ -144,9 +151,16 @@ export default function TerminalComponent() {
     // Add click handler for project link
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (target.closest('[data-action="show-projects"]')) {
+      const action = target.closest('[data-action]')?.getAttribute('data-action');
+
+      if (action === 'show-projects') {
         e.preventDefault();
-        setIsPanelOpen(true);
+        setIsProjectsOpen(true);
+      }
+      
+      if (action === 'show-contact') {
+        e.preventDefault();
+        setIsContactOpen(true);
       }
     };
 
@@ -202,9 +216,11 @@ export default function TerminalComponent() {
       {/* Windows Layer */}
       <div className={styles.windowsLayer}>
         <DraggableWindow
-          title="Window"
+          title="mskayyali.com"
           className={styles.terminal}
-          initialPosition={windowPosition}
+          onClose={() => {}}
+          position={windowPosition}
+          onPositionChange={setWindowPosition}
           disableDragging={isMobile}
           currentTheme={currentTheme}
         >
@@ -215,12 +231,23 @@ export default function TerminalComponent() {
           </div>
         </DraggableWindow>
 
-        {isPanelOpen && (
+        {isProjectsOpen && (
           <ProjectsWindow
-            markdownContent={markdownContent}
-            onClose={() => setIsPanelOpen(false)}
+            onClose={() => setIsProjectsOpen(false)}
             disableDragging={isMobile}
             currentTheme={currentTheme}
+            position={projectsWindowPosition}
+            onPositionChange={setProjectsWindowPosition}
+          />
+        )}
+        
+        {isContactOpen && (
+          <ContactWindow
+            onClose={() => setIsContactOpen(false)}
+            disableDragging={isMobile}
+            currentTheme={currentTheme}
+            position={contactWindowPosition}
+            onPositionChange={setContactWindowPosition}
           />
         )}
       </div>

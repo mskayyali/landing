@@ -4,20 +4,33 @@ import ReactMarkdown from 'react-markdown';
 import DraggableWindow from './DraggableWindow';
 import styles from './ProjectsWindow.module.css';
 import { Theme } from '../themes';
+import { useState, useEffect } from 'react';
 
 interface ProjectsWindowProps {
-  markdownContent: string;
   onClose: () => void;
-  disableDragging?: boolean;
+  disableDragging: boolean;
   currentTheme: Theme;
+  position: { x: number; y: number };
+  onPositionChange: (position: { x: number; y: number }) => void;
 }
 
-export default function ProjectsWindow({ 
-  markdownContent, 
-  onClose, 
-  disableDragging = false,
-  currentTheme 
+function ProjectsWindow({
+  onClose,
+  disableDragging,
+  currentTheme,
+  position,
+  onPositionChange,
 }: ProjectsWindowProps) {
+  const [markdownContent, setMarkdownContent] = useState("");
+  const windowTitle = "Side Projects";
+
+  useEffect(() => {
+    fetch('/content/side-projects.md')
+      .then(res => res.text())
+      .then(setMarkdownContent)
+      .catch(err => console.error("Failed to load projects markdown:", err));
+  }, []);
+
   // Calculate responsive initial position
   const getInitialPosition = () => {
     if (typeof window === 'undefined') return { x: 0, y: 0 };
@@ -44,12 +57,13 @@ export default function ProjectsWindow({
 
   return (
     <DraggableWindow
-      title="Projects"
+      title={windowTitle}
       onClose={onClose}
       className={styles.projectsWindow}
-      initialPosition={initialPosition}
       disableDragging={disableDragging}
       currentTheme={currentTheme}
+      position={position}
+      onPositionChange={onPositionChange}
     >
       <div 
         className={styles.markdownContent}
@@ -65,4 +79,6 @@ export default function ProjectsWindow({
       </div>
     </DraggableWindow>
   );
-} 
+}
+
+export default ProjectsWindow; 

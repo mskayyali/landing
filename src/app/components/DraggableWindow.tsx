@@ -6,12 +6,14 @@ import { Theme } from '../themes';
 
 interface DraggableWindowProps {
   children: ReactNode;
-  title?: string;
-  onClose?: () => void;
+  title: string;
+  onClose: () => void;
   className?: string;
-  initialPosition: { x: number; y: number };
+  initialPosition?: { x: number; y: number };
   disableDragging?: boolean;
-  currentTheme?: Theme;
+  currentTheme: Theme;
+  position: { x: number; y: number };
+  onPositionChange: (position: { x: number; y: number }) => void;
 }
 
 interface Position {
@@ -24,18 +26,16 @@ export default function DraggableWindow({
   title,
   onClose,
   className = '',
-  initialPosition,
+  initialPosition = { x: 0, y: 0 },
   disableDragging = false,
-  currentTheme
+  currentTheme,
+  position,
+  onPositionChange,
 }: DraggableWindowProps) {
-  const [position, setPosition] = useState<Position>(initialPosition);
-  const isDragging = useRef(false);
-  const dragStart = useRef({ x: 0, y: 0 });
-  const windowOffset = useRef({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
   const windowRef = useRef<HTMLDivElement>(null);
-  const frameRef = useRef<number | undefined>(undefined);
+  const offsetRef = useRef({ x: 0, y: 0 });
 
-  // Memoize the bounds calculation
   const getBounds = useCallback(() => {
     if (!windowRef.current) return { minX: 0, maxX: 0, minY: 0, maxY: 0 };
     const windowWidth = windowRef.current.offsetWidth;
@@ -48,82 +48,57 @@ export default function DraggableWindow({
     };
   }, []);
 
-  // Update position when initialPosition changes
-  useEffect(() => {
-    setPosition(initialPosition);
-  }, [initialPosition]);
-
-  const updatePosition = useCallback((clientX: number, clientY: number) => {
-    if (disableDragging) return;
-    
-    const bounds = getBounds();
-    const newX = Math.max(bounds.minX, Math.min(bounds.maxX, clientX - windowOffset.current.x));
-    const newY = Math.max(bounds.minY, Math.min(bounds.maxY, clientY - windowOffset.current.y));
-
-    setPosition({ x: newX, y: newY });
-  }, [getBounds, disableDragging]);
-
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    e.preventDefault();
-    if (!isDragging.current || disableDragging) return;
-
-    // Cancel any existing frame
-    if (frameRef.current) {
-      cancelAnimationFrame(frameRef.current);
-    }
-
-    // Schedule the next frame
-    frameRef.current = requestAnimationFrame(() => {
-      updatePosition(e.clientX, e.clientY);
-    });
-  }, [updatePosition, disableDragging]);
-
-  const handleMouseUp = useCallback(() => {
-    if (!isDragging.current) return;
-    isDragging.current = false;
-    document.body.style.cursor = '';
-    document.documentElement.style.userSelect = '';
-    
-    window.removeEventListener('mousemove', handleMouseMove);
-    window.removeEventListener('mouseup', handleMouseUp);
-
-    if (frameRef.current) {
-      cancelAnimationFrame(frameRef.current);
-    }
-  }, [handleMouseMove]);
-
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (disableDragging || (e.target instanceof HTMLElement && e.target.closest('.content'))) return;
-    e.preventDefault();
-    
+    if (
+      disableDragging ||
+      (e.target instanceof HTMLElement && e.target.closest(".content"))
+    )
+      return;
+
     const rect = windowRef.current?.getBoundingClientRect();
     if (!rect) return;
 
-    isDragging.current = true;
-    document.body.style.cursor = 'grabbing';
-    document.documentElement.style.userSelect = 'none';
-
-    windowOffset.current = {
+    offsetRef.current = {
       x: e.clientX - rect.left,
-      y: e.clientY - rect.top
+      y: e.clientY - rect.top,
     };
 
-    dragStart.current = { x: e.clientX, y: e.clientY };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', handleMouseUp);
+    setIsDragging(true);
   };
 
-  // Clean up event listeners and animation frames
   useEffect(() => {
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-      if (frameRef.current) {
-        cancelAnimationFrame(frameRef.current);
-      }
+    const handleMouseMove = (e: MouseEvent) => {
+      e.preventDefault();
+      const bounds = getBounds();
+      const newX = Math.max(
+        bounds.minX,
+        Math.min(bounds.maxX, e.clientX - offsetRef.current.x)
+      );
+      const newY = Math.max(
+        bounds.minY,
+        Math.min(bounds.maxY, e.clientY - offsetRef.current.y)
+      );
+      onPositionChange({ x: newX, y: newY });
     };
-  }, [handleMouseMove, handleMouseUp]);
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    if (isDragging) {
+      document.body.style.cursor = "grabbing";
+      document.documentElement.style.userSelect = "none";
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
+    }
+
+    return () => {
+      document.body.style.cursor = "";
+      document.documentElement.style.userSelect = "";
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isDragging, getBounds, onPositionChange]);
 
   return (
     <div
@@ -131,7 +106,7 @@ export default function DraggableWindow({
       className={`${styles.window} ${className} ${disableDragging ? styles.mobile : ''}`}
       style={{
         transform: `translate3d(${position.x}px, ${position.y}px, 0)`,
-        cursor: isDragging.current ? 'grabbing' : disableDragging ? 'default' : 'grab',
+        cursor: isDragging ? 'grabbing' : disableDragging ? 'default' : 'grab',
         ...(currentTheme && {
           '--theme-primary': currentTheme.primary,
           '--theme-text': currentTheme.text,
@@ -144,7 +119,7 @@ export default function DraggableWindow({
       <div 
         className={styles.titleBar} 
         onMouseDown={handleMouseDown}
-        style={{ cursor: disableDragging ? 'default' : isDragging.current ? 'grabbing' : 'grab' }}
+        style={{ cursor: disableDragging ? 'default' : isDragging ? 'grabbing' : 'grab' }}
       >
         {title && <div className={styles.title}>{title}</div>}
         {onClose && (
@@ -157,9 +132,7 @@ export default function DraggableWindow({
           </button>
         )}
       </div>
-      <div className={`${styles.content} content`}>
-        {children}
-      </div>
+      <div className={`${styles.content} content`}>{children}</div>
     </div>
   );
-} 
+}

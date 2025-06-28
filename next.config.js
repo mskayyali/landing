@@ -8,8 +8,8 @@ const nextConfig = {
     
     // Different CSP for development vs production
     const cspValue = isDev
-      ? "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.clarity.ms; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.clarity.ms ws: wss:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
-      : "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.clarity.ms; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.clarity.ms; frame-ancestors 'none'; base-uri 'self'; form-action 'self'";
+      ? "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.clarity.ms; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.clarity.ms https://formspree.io ws: wss:; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io"
+      : "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.clarity.ms; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.clarity.ms https://formspree.io; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io";
 
     return [
       {

@@ -1,0 +1,141 @@
+.contactWindow {
+  width: 500px;
+  height: auto;
+  min-height: 400px;
+  max-width: 95vw;
+}
+
+.content {
+  padding: 1.5rem;
+  color: var(--theme-text);
+  font-family: var(--font-geist-mono);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.intro {
+  margin-bottom: 1.5rem;
+  color: var(--theme-dim-text);
+}
+
+.contactForm {
+  padding: 1rem;
+  color: var(--theme-text);
+  font-family: var(--font-geist-mono);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.formGroup {
+  margin-bottom: 1.25rem;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--theme-text);
+}
+
+.inputField,
+.textareaField {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--theme-border);
+  border-radius: 4px;
+  padding: 0.75rem;
+  color: var(--theme-text);
+  font-family: inherit;
+  font-size: 1em;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.inputField:focus,
+.textareaField:focus {
+  border-color: var(--theme-primary);
+  box-shadow: 0 0 0 2px rgba(34, 180, 85, 0.3);
+}
+
+.textareaField {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.submitButton {
+  background-color: #333;
+  color: var(--theme-text);
+  border: 1px solid var(--theme-border);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+  width: 100%;
+  text-align: left;
+}
+
+.submitButton:hover {
+  background-color: #444;
+  border-color: var(--theme-primary);
+}
+
+.submitButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.errorMessage {
+  color: #ff6b6b;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.thankYouMessage {
+  padding: 2rem;
+  text-align: center;
+}
+
+.thankYouMessage p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.formFooter {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.button {
+  background-color: var(--theme-primary);
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  font-family: inherit;
+}
+
+.button:hover {
+  opacity: 0.85;
+}
+
+.status {
+  color: var(--theme-dim-text);
+  font-size: 0.9em;
+}
+
+@media (max-width: 768px) {
+  .contactWindow {
+    width: calc(100% - 2rem);
+    height: auto;
+  }
+  .content {
+    padding: 1rem;
+  }
+} 
