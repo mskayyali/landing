@@ -34,22 +34,30 @@ export default function NotesToSelf() {
     }}>
       <div style={{ 
         minHeight: '100vh',
-        maxWidth: '1400px', 
+        maxWidth: '1600px', 
         margin: '0 auto',
         padding: '2rem',
         display: 'flex',
-        alignItems: 'center'
+        flexDirection: 'column',
+        gap: '4rem'
       }}>
         
-        {/* Desktop Layout */}
+        {/* Main Content Section */}
         <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: '1fr 1fr',
-          gap: '4rem', 
-          height: '100%',
-          width: '100%',
-          alignItems: 'center'
-        }} className="desktop-layout">
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          width: '100%'
+        }}>
+          {/* Desktop Layout */}
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: '1fr 1fr',
+            gap: '4rem', 
+            height: '100%',
+            width: '100%',
+            alignItems: 'center'
+          }} className="desktop-layout">
           
           {/* Left Side - Content */}
           <div style={{ 
@@ -298,9 +306,13 @@ export default function NotesToSelf() {
             </div>
           </div>
         </div>
+        </div>
         
         {/* Mobile Layout */}
-        <div style={{ display: 'none' }} className="mobile-layout">
+        <div style={{ 
+          display: 'none',
+          minHeight: '100vh'
+        }} className="mobile-layout">
           <div style={{ 
             display: 'flex', 
             flexDirection: 'column', 
@@ -546,6 +558,7 @@ export default function NotesToSelf() {
             </div>
           </div>
         </div>
+
       </div>
       
       {/* Responsive CSS */}
@@ -565,6 +578,13 @@ export default function NotesToSelf() {
           }
           .mobile-layout {
             display: none !important;
+          }
+        }
+        
+        /* Mobile adjustments for RSS section */
+        @media (max-width: 640px) {
+          .rss-grid {
+            grid-template-columns: 1fr !important;
           }
         }
       `}</style>
