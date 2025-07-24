@@ -389,6 +389,34 @@
   }
 }
 
+/* Latest section responsive grid */
+.latestGrid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr !important;
+  gap: 2rem !important;
+}
+
+@media (max-width: 768px) {
+  .latestGrid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+}
+
+/* Latest section items */
+.latestItem {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 120px !important;
+}
+
+@media (max-width: 768px) {
+  .latestItem {
+    height: auto !important;
+    min-height: 80px !important;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

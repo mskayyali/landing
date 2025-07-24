@@ -195,19 +195,26 @@ export default function TerminalComponent() {
       const latestLines = [];
       const latestContent = (
         <TerminalOutput key={getNextKey()}>
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: '1fr 1fr 1fr',
-            gap: '2rem',
-            marginTop: '1rem',
-            alignItems: 'start'
-          }}>
+          <div 
+            className={styles.latestGrid}
+            style={{ 
+              display: 'grid', 
+              gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr',
+              gap: isMobile ? '1.5rem' : '2rem',
+              marginTop: '1rem',
+              alignItems: 'start'
+            }}
+          >
             {/* Note to Self Project */}
-            <div style={{ 
-              display: 'flex', 
-              flexDirection: 'column', 
-              height: '120px' 
-            }}>
+            <div 
+              className={styles.latestItem}
+              style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                height: isMobile ? 'auto' : '120px',
+                minHeight: isMobile ? '80px' : '120px'
+              }}
+            >
               <div style={{ 
                 display: 'flex', 
                 alignItems: 'flex-start', 
@@ -251,11 +258,15 @@ export default function TerminalComponent() {
             </div>
 
             {/* Latest Article */}
-            <div style={{ 
-              display: 'flex', 
-              flexDirection: 'column', 
-              height: '120px' 
-            }}>
+            <div 
+              className={styles.latestItem}
+              style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                height: isMobile ? 'auto' : '120px',
+                minHeight: isMobile ? '80px' : '120px'
+              }}
+            >
               <div style={{ flex: 1 }}>
                 <div style={{ 
                   color: 'var(--theme-text)', 
@@ -263,7 +274,7 @@ export default function TerminalComponent() {
                   fontSize: '0.9rem',
                   marginBottom: '0.5rem'
                 }}>
-                  Latest Writing
+                  Latest Article
                 </div>
                 {isLoadingRss ? (
                   <div style={{ color: 'var(--theme-dim-text)', fontSize: '0.8rem' }}>Loading...</div>
@@ -293,11 +304,15 @@ export default function TerminalComponent() {
             </div>
 
             {/* Latest Video */}
-            <div style={{ 
-              display: 'flex', 
-              flexDirection: 'column', 
-              height: '120px' 
-            }}>
+            <div 
+              className={styles.latestItem}
+              style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                height: isMobile ? 'auto' : '120px',
+                minHeight: isMobile ? '80px' : '120px'
+              }}
+            >
               <div style={{ flex: 1 }}>
                 <div style={{ 
                   color: 'var(--theme-text)', 
