@@ -33,25 +33,22 @@ export default function NotesToSelf() {
       fontFamily: 'ui-monospace, "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace'
     }}>
       <div style={{ 
-        minHeight: '100vh',
         maxWidth: '1600px', 
         margin: '0 auto',
         padding: '2rem',
         display: 'flex',
-        flexDirection: 'column',
-        gap: '4rem'
-      }}>
+        flexDirection: 'column'
+      }} className="main-container">
         
         {/* Main Content Section */}
         <div style={{ 
-          minHeight: '100vh',
           display: 'flex',
           alignItems: 'center',
           width: '100%'
-        }}>
+        }} className="main-content-section">
           {/* Desktop Layout */}
           <div style={{ 
-            display: 'grid', 
+            display: 'none', 
             gridTemplateColumns: '1fr 1fr',
             gap: '4rem', 
             height: '100%',
@@ -310,16 +307,14 @@ export default function NotesToSelf() {
         
         {/* Mobile Layout */}
         <div style={{ 
-          display: 'none',
-          minHeight: '100vh'
+          display: 'flex'
         }} className="mobile-layout">
           <div style={{ 
             display: 'flex', 
             flexDirection: 'column', 
-            gap: '2rem',
-            minHeight: '100vh',
+            gap: '1.5rem',
             justifyContent: 'flex-start',
-            paddingTop: '2rem',
+            paddingTop: '0',
             paddingBottom: '2rem'
           }}>
             
@@ -563,15 +558,16 @@ export default function NotesToSelf() {
       
       {/* Responsive CSS */}
       <style jsx>{`
-        @media (max-width: 768px) {
-          .desktop-layout {
-            display: none !important;
-          }
-          .mobile-layout {
-            display: flex !important;
-          }
+        /* Mobile-first approach - starts with mobile layout */
+        .main-content-section {
+          min-height: auto !important;
         }
         
+        .main-container {
+          padding: 1rem !important;
+        }
+        
+        /* Desktop layout - only shows on larger screens */
         @media (min-width: 769px) {
           .desktop-layout {
             display: grid !important;
@@ -579,12 +575,21 @@ export default function NotesToSelf() {
           .mobile-layout {
             display: none !important;
           }
+          .main-container {
+            padding: 2rem !important;
+          }
+          .main-content-section {
+            min-height: calc(100vh - 4rem) !important;
+          }
         }
         
-        /* Mobile adjustments for RSS section */
-        @media (max-width: 640px) {
-          .rss-grid {
-            grid-template-columns: 1fr !important;
+        /* Ensure mobile layout is default */
+        @media (max-width: 768px) {
+          .desktop-layout {
+            display: none !important;
+          }
+          .mobile-layout {
+            display: flex !important;
           }
         }
       `}</style>
