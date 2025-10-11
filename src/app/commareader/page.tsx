@@ -99,6 +99,32 @@ export default function CommaReader() {
               On‑Device AI EPUB & PDF Reader for iOS. Your epubs, pdfs, highlights, quotes, and personal data remain completely private. Everything stays on your device.
             </p>
 
+            {/* Powered By */}
+            <div style={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              gap: '0.5rem',
+              marginTop: '1rem'
+            }}>
+              <div style={{ 
+                fontSize: 'clamp(0.75rem, 1.4vw, 0.85rem)',
+                color: '#9ca3af',
+                fontWeight: '500'
+              }}>
+                Powered by:
+              </div>
+              <img 
+                src="/images/AI.png" 
+                alt="Apple Intelligence" 
+                style={{
+                  height: '24px',
+                  width: 'auto',
+                  objectFit: 'contain',
+                  objectPosition: 'left center'
+                }}
+              />
+            </div>
+
             {/* Features */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <h3 style={{
@@ -381,6 +407,33 @@ export default function CommaReader() {
             }}>
               On‑Device AI EPUB & PDF Reader for iOS. Your epubs, pdfs, highlights, quotes, and personal data remain completely private. Everything stays on your device.
             </p>
+
+            {/* Powered By */}
+            <div style={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              gap: '0.5rem',
+              marginTop: '1rem',
+              textAlign: 'left'
+            }}>
+              <div style={{ 
+                fontSize: '0.85rem',
+                color: '#9ca3af',
+                fontWeight: '500'
+              }}>
+                Powered by:
+              </div>
+              <img 
+                src="/images/AI.png" 
+                alt="Apple Intelligence" 
+                style={{
+                  height: '22px',
+                  width: 'auto',
+                  objectFit: 'contain',
+                  objectPosition: 'left center'
+                }}
+              />
+            </div>
 
             {/* Centered Image Carousel */}
             <div style={{
