@@ -99,7 +99,7 @@ export default function CommaReader() {
               On‑Device AI EPUB & PDF Reader for iOS. Your epubs, pdfs, highlights, quotes, and personal data remain completely private. Everything stays on your device.
             </p>
 
-            {/* Powered By */}
+            {/* AI Featured Powered By */}
             <div style={{ 
               display: 'flex', 
               flexDirection: 'column', 
@@ -111,13 +111,13 @@ export default function CommaReader() {
                 color: '#9ca3af',
                 fontWeight: '500'
               }}>
-                Powered by:
+                AI featured powered by:
               </div>
               <img 
                 src="/images/AI.png" 
                 alt="Apple Intelligence" 
                 style={{
-                  height: '24px',
+                  height: '32px',
                   width: 'auto',
                   objectFit: 'contain',
                   objectPosition: 'left center'
@@ -408,7 +408,7 @@ export default function CommaReader() {
               On‑Device AI EPUB & PDF Reader for iOS. Your epubs, pdfs, highlights, quotes, and personal data remain completely private. Everything stays on your device.
             </p>
 
-            {/* Powered By */}
+            {/* AI Featured Powered By */}
             <div style={{ 
               display: 'flex', 
               flexDirection: 'column', 
@@ -421,13 +421,13 @@ export default function CommaReader() {
                 color: '#9ca3af',
                 fontWeight: '500'
               }}>
-                Powered by:
+                AI featured powered by:
               </div>
               <img 
                 src="/images/AI.png" 
                 alt="Apple Intelligence" 
                 style={{
-                  height: '22px',
+                  height: '28px',
                   width: 'auto',
                   objectFit: 'contain',
                   objectPosition: 'left center'
