@@ -14,8 +14,6 @@ const screenshots = [
 
 export default function CommaReader() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [isVideoMuted, setIsVideoMuted] = useState(true);
 
   const handleDotClick = (index: number) => {
     setCurrentImageIndex(index);
@@ -252,75 +250,33 @@ export default function CommaReader() {
               alignItems: 'center',
               justifyContent: 'center'
             }}>
-              {screenshots.map((screenshot, index) => (
-                screenshot.type === 'video' ? (
-                  <div
+              {screenshots.map((screenshot, index) => {
+                const isActive = currentImageIndex === index;
+                return screenshot.type === 'video' ? (
+                  <video
                     key={index}
+                    src={screenshot.src}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    controls
+                    controlsList="nodownload"
                     style={{
-                      position: 'relative',
                       width: '100%',
                       height: '100%',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
+                      objectFit: 'contain',
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      opacity: isActive ? 1 : 0,
+                      visibility: isActive ? 'visible' : 'hidden',
+                      transition: 'opacity 0.5s ease-in-out',
+                      pointerEvents: isActive ? 'auto' : 'none',
+                      zIndex: isActive ? 2 : 1
                     }}
-                    onMouseEnter={() => setHoveredIndex(index)}
-                    onMouseLeave={() => setHoveredIndex(null)}
-                  >
-                    <video
-                      src={screenshot.src}
-                      autoPlay
-                      muted={isVideoMuted}
-                      loop
-                      playsInline
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'contain',
-                        opacity: currentImageIndex === index ? 1 : 0,
-                        transition: 'opacity 0.5s ease-in-out',
-                        pointerEvents: currentImageIndex === index ? 'auto' : 'none'
-                      }}
-                    />
-                    {/* Video Controls - only show when video is active and hovered */}
-                    {hoveredIndex === index && currentImageIndex === index && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setIsVideoMuted(!isVideoMuted);
-                        }}
-                        style={{
-                          position: 'absolute',
-                          bottom: '20px',
-                          right: '20px',
-                          backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                          border: 'none',
-                          borderRadius: '50%',
-                          width: '40px',
-                          height: '40px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          cursor: 'pointer',
-                          color: 'white',
-                          fontSize: '16px',
-                          zIndex: 15,
-                          transition: 'all 0.2s ease',
-                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
-                          e.currentTarget.style.transform = 'scale(1.1)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-                          e.currentTarget.style.transform = 'scale(1)';
-                        }}
-                      >
-                        {isVideoMuted ? '🔇' : '🔊'}
-                      </button>
-                    )}
-                  </div>
+                  />
                 ) : (
                   <img
                     key={index}
@@ -334,12 +290,15 @@ export default function CommaReader() {
                       top: '50%',
                       left: '50%',
                       transform: 'translate(-50%, -50%)',
-                      opacity: currentImageIndex === index ? 1 : 0,
-                      transition: 'opacity 0.5s ease-in-out'
+                      opacity: isActive ? 1 : 0,
+                      visibility: isActive ? 'visible' : 'hidden',
+                      transition: 'opacity 0.5s ease-in-out',
+                      pointerEvents: isActive ? 'auto' : 'none',
+                      zIndex: isActive ? 2 : 1
                     }}
                   />
-                )
-              ))}
+                );
+              })}
             </div>
 
             {/* Carousel Dots */}
@@ -441,75 +400,33 @@ export default function CommaReader() {
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
-                {screenshots.map((screenshot, index) => (
-                  screenshot.type === 'video' ? (
-                    <div
+                {screenshots.map((screenshot, index) => {
+                  const isActive = currentImageIndex === index;
+                  return screenshot.type === 'video' ? (
+                    <video
                       key={index}
+                      src={screenshot.src}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      controls
+                      controlsList="nodownload"
                       style={{
-                        position: 'relative',
                         width: '100%',
                         height: '100%',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
+                        objectFit: 'contain',
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        opacity: isActive ? 1 : 0,
+                        visibility: isActive ? 'visible' : 'hidden',
+                        transition: 'opacity 0.5s ease-in-out',
+                        pointerEvents: isActive ? 'auto' : 'none',
+                        zIndex: isActive ? 2 : 1
                       }}
-                      onMouseEnter={() => setHoveredIndex(index)}
-                      onMouseLeave={() => setHoveredIndex(null)}
-                    >
-                      <video
-                        src={screenshot.src}
-                        autoPlay
-                        muted={isVideoMuted}
-                        loop
-                        playsInline
-                        style={{
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'contain',
-                          opacity: currentImageIndex === index ? 1 : 0,
-                          transition: 'opacity 0.5s ease-in-out',
-                          pointerEvents: currentImageIndex === index ? 'auto' : 'none'
-                        }}
-                      />
-                      {/* Video Controls - only show when video is active and hovered */}
-                      {hoveredIndex === index && currentImageIndex === index && (
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setIsVideoMuted(!isVideoMuted);
-                          }}
-                          style={{
-                            position: 'absolute',
-                            bottom: '15px',
-                            right: '15px',
-                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                            border: 'none',
-                            borderRadius: '50%',
-                            width: '35px',
-                            height: '35px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            cursor: 'pointer',
-                            color: 'white',
-                            fontSize: '14px',
-                            zIndex: 15,
-                            transition: 'all 0.2s ease',
-                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
-                            e.currentTarget.style.transform = 'scale(1.1)';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-                            e.currentTarget.style.transform = 'scale(1)';
-                          }}
-                        >
-                          {isVideoMuted ? '🔇' : '🔊'}
-                        </button>
-                      )}
-                    </div>
+                    />
                   ) : (
                     <img
                       key={index}
@@ -523,12 +440,15 @@ export default function CommaReader() {
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
-                        opacity: currentImageIndex === index ? 1 : 0,
-                        transition: 'opacity 0.5s ease-in-out'
+                        opacity: isActive ? 1 : 0,
+                        visibility: isActive ? 'visible' : 'hidden',
+                        transition: 'opacity 0.5s ease-in-out',
+                        pointerEvents: isActive ? 'auto' : 'none',
+                        zIndex: isActive ? 2 : 1
                       }}
                     />
-                  )
-                ))}
+                  );
+                })}
               </div>
 
               {/* Carousel Dots */}

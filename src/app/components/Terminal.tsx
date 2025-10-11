@@ -191,7 +191,7 @@ export default function TerminalComponent() {
         </TerminalOutput>
       ));
 
-      // Create Latest section with three items in a row (no header)
+      // Create Latest section with four items in a row (no header)
       const latestLines = [];
       const latestContent = (
         <TerminalOutput key={getNextKey()}>
@@ -199,7 +199,7 @@ export default function TerminalComponent() {
             className={styles.latestGrid}
             style={{ 
               display: 'grid', 
-              gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr',
+              gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr 1fr',
               gap: isMobile ? '1.5rem' : '2rem',
               marginTop: '1rem',
               alignItems: 'start'
@@ -252,6 +252,58 @@ export default function TerminalComponent() {
               </div>
               <div style={{ marginTop: 'auto' }}>
                 <a href="/notetoself" className={styles.link} style={{ fontSize: '0.8rem' }}>
+                  View Project
+                </a>
+              </div>
+            </div>
+
+            {/* Comma Reader Project */}
+            <div 
+              className={styles.latestItem}
+              style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                height: isMobile ? 'auto' : '120px',
+                minHeight: isMobile ? '80px' : '120px'
+              }}
+            >
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'flex-start', 
+                gap: '0.75rem',
+                marginBottom: '0.5rem',
+                flex: 1
+              }}>
+                <img 
+                  src="/images/commalogo.png" 
+                  alt="Comma Reader Logo" 
+                  style={{
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: '6px',
+                    objectFit: 'cover',
+                    flexShrink: 0
+                  }}
+                />
+                <div style={{ flex: 1 }}>
+                  <div style={{ 
+                    color: 'var(--theme-text)', 
+                    fontWeight: '500',
+                    fontSize: '0.9rem',
+                    marginBottom: '0.25rem'
+                  }}>
+                    Comma Reader
+                  </div>
+                  <div style={{ 
+                    color: 'var(--theme-dim-text)', 
+                    fontSize: '0.8rem'
+                  }}>
+                    On‑Device AI EPUB & PDF Reader for iOS
+                  </div>
+                </div>
+              </div>
+              <div style={{ marginTop: 'auto' }}>
+                <a href="/commareader" className={styles.link} style={{ fontSize: '0.8rem' }}>
                   View Project
                 </a>
               </div>
