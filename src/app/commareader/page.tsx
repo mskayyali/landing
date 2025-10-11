@@ -262,9 +262,7 @@ export default function CommaReader() {
                       height: '100%',
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'center',
-                      opacity: currentImageIndex === index ? 1 : 0,
-                      transition: 'opacity 0.5s ease-in-out'
+                      justifyContent: 'center'
                     }}
                     onMouseEnter={() => setIsVideoHovered(true)}
                     onMouseLeave={() => setIsVideoHovered(false)}
@@ -279,10 +277,12 @@ export default function CommaReader() {
                         width: '100%',
                         height: '100%',
                         objectFit: 'contain',
-                        pointerEvents: 'none'
+                        opacity: currentImageIndex === index ? 1 : 0,
+                        transition: 'opacity 0.5s ease-in-out',
+                        pointerEvents: currentImageIndex === index ? 'auto' : 'none'
                       }}
                     />
-                    {/* Video Controls */}
+                    {/* Video Controls - only show when video is active */}
                     {isVideoHovered && currentImageIndex === index && (
                       <button
                         onClick={(e) => {
@@ -304,7 +304,7 @@ export default function CommaReader() {
                           cursor: 'pointer',
                           color: 'white',
                           fontSize: '16px',
-                          zIndex: 10,
+                          zIndex: 15,
                           transition: 'all 0.2s ease',
                           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
                         }}
@@ -451,9 +451,7 @@ export default function CommaReader() {
                         height: '100%',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center',
-                        opacity: currentImageIndex === index ? 1 : 0,
-                        transition: 'opacity 0.5s ease-in-out'
+                        justifyContent: 'center'
                       }}
                       onMouseEnter={() => setIsVideoHovered(true)}
                       onMouseLeave={() => setIsVideoHovered(false)}
@@ -468,10 +466,12 @@ export default function CommaReader() {
                           width: '100%',
                           height: '100%',
                           objectFit: 'contain',
-                          pointerEvents: 'none'
+                          opacity: currentImageIndex === index ? 1 : 0,
+                          transition: 'opacity 0.5s ease-in-out',
+                          pointerEvents: currentImageIndex === index ? 'auto' : 'none'
                         }}
                       />
-                      {/* Video Controls */}
+                      {/* Video Controls - only show when video is active */}
                       {isVideoHovered && currentImageIndex === index && (
                         <button
                           onClick={(e) => {
@@ -493,7 +493,7 @@ export default function CommaReader() {
                             cursor: 'pointer',
                             color: 'white',
                             fontSize: '14px',
-                            zIndex: 10,
+                            zIndex: 15,
                             transition: 'all 0.2s ease',
                             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
                           }}
