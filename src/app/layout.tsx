@@ -51,6 +51,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={jetBrainsMono.variable}>
       <body suppressHydrationWarning>
+        {/* Microsoft Clarity */}
         <Script
           id="microsoft-clarity"
           strategy="afterInteractive"
@@ -64,6 +65,13 @@ export default function RootLayout({
             `
           }}
         />
+        
+        {/* Simple Analytics - 100% privacy-first */}
+        <Script
+          src="https://scripts.simpleanalyticscdn.com/latest.js"
+          strategy="afterInteractive"
+        />
+        
         {children}
       </body>
     </html>
