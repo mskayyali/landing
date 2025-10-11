@@ -14,7 +14,7 @@ const screenshots = [
 
 export default function CommaReader() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isVideoHovered, setIsVideoHovered] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isVideoMuted, setIsVideoMuted] = useState(true);
 
   const handleDotClick = (index: number) => {
@@ -264,8 +264,8 @@ export default function CommaReader() {
                       alignItems: 'center',
                       justifyContent: 'center'
                     }}
-                    onMouseEnter={() => setIsVideoHovered(true)}
-                    onMouseLeave={() => setIsVideoHovered(false)}
+                    onMouseEnter={() => setHoveredIndex(index)}
+                    onMouseLeave={() => setHoveredIndex(null)}
                   >
                     <video
                       src={screenshot.src}
@@ -282,8 +282,8 @@ export default function CommaReader() {
                         pointerEvents: currentImageIndex === index ? 'auto' : 'none'
                       }}
                     />
-                    {/* Video Controls - only show when video is active */}
-                    {isVideoHovered && currentImageIndex === index && (
+                    {/* Video Controls - only show when video is active and hovered */}
+                    {hoveredIndex === index && currentImageIndex === index && (
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -453,8 +453,8 @@ export default function CommaReader() {
                         alignItems: 'center',
                         justifyContent: 'center'
                       }}
-                      onMouseEnter={() => setIsVideoHovered(true)}
-                      onMouseLeave={() => setIsVideoHovered(false)}
+                      onMouseEnter={() => setHoveredIndex(index)}
+                      onMouseLeave={() => setHoveredIndex(null)}
                     >
                       <video
                         src={screenshot.src}
@@ -471,8 +471,8 @@ export default function CommaReader() {
                           pointerEvents: currentImageIndex === index ? 'auto' : 'none'
                         }}
                       />
-                      {/* Video Controls - only show when video is active */}
-                      {isVideoHovered && currentImageIndex === index && (
+                      {/* Video Controls - only show when video is active and hovered */}
+                      {hoveredIndex === index && currentImageIndex === index && (
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
