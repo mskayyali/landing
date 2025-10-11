@@ -96,7 +96,7 @@ export default function CommaReader() {
               lineHeight: '1.5',
               margin: 0
             }}>
-              On‑Device AI EPUB & PDF Reader for iOS. Your epubs, pdfs, highlgihts, quotes, and personal data remain completely private. Everything stays on your device.
+              On‑Device AI EPUB & PDF Reader for iOS. Your epubs, pdfs, highlights, quotes, and personal data remain completely private. Everything stays on your device.
             </p>
 
             {/* Features */}
@@ -379,7 +379,7 @@ export default function CommaReader() {
               margin: 0,
               textAlign: 'left'
             }}>
-              A privacy-first EPUB and PDF reader for iOS. Your reading habits, notes, and personal data remain completely private. Everything stays on your device.
+              On‑Device AI EPUB & PDF Reader for iOS. Your epubs, pdfs, highlights, quotes, and personal data remain completely private. Everything stays on your device.
             </p>
 
             {/* Centered Image Carousel */}
