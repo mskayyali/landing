@@ -14,15 +14,8 @@ const screenshots = [
 
 export default function CommaReader() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  // Auto-rotate carousel
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % screenshots.length);
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, []);
+  const [isVideoHovered, setIsVideoHovered] = useState(false);
+  const [isVideoMuted, setIsVideoMuted] = useState(true);
 
   const handleDotClick = (index: number) => {
     setCurrentImageIndex(index);
@@ -261,25 +254,66 @@ export default function CommaReader() {
             }}>
               {screenshots.map((screenshot, index) => (
                 screenshot.type === 'video' ? (
-                  <video
+                  <div
                     key={index}
-                    src={screenshot.src}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
                     style={{
+                      position: 'relative',
                       width: '100%',
                       height: '100%',
-                      objectFit: 'contain',
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      opacity: currentImageIndex === index ? 1 : 0,
-                      transition: 'opacity 0.5s ease-in-out'
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
                     }}
-                  />
+                    onMouseEnter={() => setIsVideoHovered(true)}
+                    onMouseLeave={() => setIsVideoHovered(false)}
+                  >
+                    <video
+                      src={screenshot.src}
+                      autoPlay
+                      muted={isVideoMuted}
+                      loop
+                      playsInline
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        opacity: currentImageIndex === index ? 1 : 0,
+                        transition: 'opacity 0.5s ease-in-out'
+                      }}
+                    />
+                    {/* Video Controls */}
+                    {isVideoHovered && currentImageIndex === index && (
+                      <button
+                        onClick={() => setIsVideoMuted(!isVideoMuted)}
+                        style={{
+                          position: 'absolute',
+                          bottom: '20px',
+                          right: '20px',
+                          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                          border: 'none',
+                          borderRadius: '50%',
+                          width: '40px',
+                          height: '40px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          cursor: 'pointer',
+                          color: 'white',
+                          fontSize: '16px',
+                          zIndex: 10,
+                          transition: 'background-color 0.2s'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.9)'}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'}
+                      >
+                        {isVideoMuted ? '🔇' : '🔊'}
+                      </button>
+                    )}
+                  </div>
                 ) : (
                   <img
                     key={index}
@@ -402,25 +436,66 @@ export default function CommaReader() {
               }}>
                 {screenshots.map((screenshot, index) => (
                   screenshot.type === 'video' ? (
-                    <video
+                    <div
                       key={index}
-                      src={screenshot.src}
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
                       style={{
+                        position: 'relative',
                         width: '100%',
                         height: '100%',
-                        objectFit: 'contain',
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        opacity: currentImageIndex === index ? 1 : 0,
-                        transition: 'opacity 0.5s ease-in-out'
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
                       }}
-                    />
+                      onMouseEnter={() => setIsVideoHovered(true)}
+                      onMouseLeave={() => setIsVideoHovered(false)}
+                    >
+                      <video
+                        src={screenshot.src}
+                        autoPlay
+                        muted={isVideoMuted}
+                        loop
+                        playsInline
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'contain',
+                          position: 'absolute',
+                          top: '50%',
+                          left: '50%',
+                          transform: 'translate(-50%, -50%)',
+                          opacity: currentImageIndex === index ? 1 : 0,
+                          transition: 'opacity 0.5s ease-in-out'
+                        }}
+                      />
+                      {/* Video Controls */}
+                      {isVideoHovered && currentImageIndex === index && (
+                        <button
+                          onClick={() => setIsVideoMuted(!isVideoMuted)}
+                          style={{
+                            position: 'absolute',
+                            bottom: '15px',
+                            right: '15px',
+                            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                            border: 'none',
+                            borderRadius: '50%',
+                            width: '35px',
+                            height: '35px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            color: 'white',
+                            fontSize: '14px',
+                            zIndex: 10,
+                            transition: 'background-color 0.2s'
+                          }}
+                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.9)'}
+                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'}
+                        >
+                          {isVideoMuted ? '🔇' : '🔊'}
+                        </button>
+                      )}
+                    </div>
                   ) : (
                     <img
                       key={index}
