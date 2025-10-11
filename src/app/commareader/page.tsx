@@ -4,11 +4,12 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
 const screenshots = [
-  '/images/comma1.png',
-  '/images/comma2.png',
-  '/images/comma3.png',
-  '/images/comma4.png',
-  '/images/comma5.png'
+  { type: 'video', src: '/video/commapreview.mp4' },
+  { type: 'image', src: '/images/comma1.png' },
+  { type: 'image', src: '/images/comma2.png' },
+  { type: 'image', src: '/images/comma3.png' },
+  { type: 'image', src: '/images/comma4.png' },
+  { type: 'image', src: '/images/comma5.png' }
 ];
 
 export default function CommaReader() {
@@ -128,8 +129,8 @@ export default function CommaReader() {
                 gap: '0.4rem'
               }}>
                 <li>• Complete privacy - no data leaves your device</li>
-                <li>• Apple Intelligence integration for smart categorization</li>
-                <li>• On-device AI processing for summaries and explanations</li>
+                <li>• Apple Intelligence integration for smart categorization, summaries and explanations</li>
+                <li>• Private wall for quotes</li>
                 <li>• Offline reading with full functionality</li>
               </ul>
             </div>
@@ -151,7 +152,7 @@ export default function CommaReader() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
                   <div style={{ width: '180px', height: '50px' }}>
                     <Link
-                      href="https://apps.apple.com/us/app/comma-reader/id1234567890"
+                      href="https://apps.apple.com/gb/app/comma-reading-app/id6753593701"
                       target="_blank"
                       style={{
                         display: 'block',
@@ -205,7 +206,7 @@ export default function CommaReader() {
                 {/* Right Column - QR Code */}
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <img
-                    src="/images/qrcode.jpg"
+                    src="/images/commaqr.png"
                     alt="QR Code to download Comma Reader"
                     style={{
                       width: '110px',
@@ -259,22 +260,44 @@ export default function CommaReader() {
               justifyContent: 'center'
             }}>
               {screenshots.map((screenshot, index) => (
-                <img
-                  key={index}
-                  src={screenshot}
-                  alt={`App Screenshot ${index + 1}`}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'contain',
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    opacity: currentImageIndex === index ? 1 : 0,
-                    transition: 'opacity 0.5s ease-in-out'
-                  }}
-                />
+                screenshot.type === 'video' ? (
+                  <video
+                    key={index}
+                    src={screenshot.src}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      opacity: currentImageIndex === index ? 1 : 0,
+                      transition: 'opacity 0.5s ease-in-out'
+                    }}
+                  />
+                ) : (
+                  <img
+                    key={index}
+                    src={screenshot.src}
+                    alt={`App Screenshot ${index}`}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      opacity: currentImageIndex === index ? 1 : 0,
+                      transition: 'opacity 0.5s ease-in-out'
+                    }}
+                  />
+                )
               ))}
             </div>
 
@@ -378,22 +401,44 @@ export default function CommaReader() {
                 justifyContent: 'center'
               }}>
                 {screenshots.map((screenshot, index) => (
-                  <img
-                    key={index}
-                    src={screenshot}
-                    alt={`App Screenshot ${index + 1}`}
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      opacity: currentImageIndex === index ? 1 : 0,
-                      transition: 'opacity 0.5s ease-in-out'
-                    }}
-                  />
+                  screenshot.type === 'video' ? (
+                    <video
+                      key={index}
+                      src={screenshot.src}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        opacity: currentImageIndex === index ? 1 : 0,
+                        transition: 'opacity 0.5s ease-in-out'
+                      }}
+                    />
+                  ) : (
+                    <img
+                      key={index}
+                      src={screenshot.src}
+                      alt={`App Screenshot ${index}`}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        opacity: currentImageIndex === index ? 1 : 0,
+                        transition: 'opacity 0.5s ease-in-out'
+                      }}
+                    />
+                  )
                 ))}
               </div>
 
@@ -467,7 +512,7 @@ export default function CommaReader() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', flex: 1 }}>
                   <div style={{ width: '180px', height: '50px' }}>
                     <Link
-                      href="https://apps.apple.com/us/app/comma-reader/id1234567890"
+                      href="https://apps.apple.com/gb/app/comma-reading-app/id6753593701"
                       target="_blank"
                       style={{
                         display: 'block',
