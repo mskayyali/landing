@@ -96,9 +96,8 @@ export default function CommaReader() {
               lineHeight: '1.5',
               margin: 0
             }}>
-              Privacy-first EPUB and PDF reader for iOS. Powered by Apple Intelligence for on-device categorization, subjects, chapter summaries, and explanations. Read, highlight, and organize with complete privacy—every feature runs on your device.
-            </p>
-
+              Privacy-first book reader for iOS. With on‑device Apple Intelligence, get automatic categorization, tagging, chapter summaries, and explanations. Read, highlight, and organize. Your data never leaves your device.
+              </p>
             {/* AI Featured Powered By */}
             <div style={{ 
               display: 'flex', 
@@ -111,7 +110,7 @@ export default function CommaReader() {
                 color: '#9ca3af',
                 fontWeight: '500'
               }}>
-                AI featured powered by:
+                AI FEATURES POWERED BY:
               </div>
               <img 
                 src="/images/AI.png" 
@@ -405,8 +404,7 @@ export default function CommaReader() {
               margin: 0,
               textAlign: 'left'
             }}>
-              Privacy-first EPUB and PDF reader for iOS. Powered by Apple Intelligence for on-device categorization, subjects, chapter summaries, and explanations. Read, highlight, and organize with complete privacy—every feature runs on your device.
-            </p>
+          Privacy-first book reader for iOS. With on‑device Apple Intelligence, get automatic categorization, tagging, chapter summaries, and explanations. Read, highlight, and organize. Your data never leaves your device.</p>
 
             {/* AI Featured Powered By */}
             <div style={{ 
@@ -421,7 +419,7 @@ export default function CommaReader() {
                 color: '#9ca3af',
                 fontWeight: '500'
               }}>
-                AI featured powered by:
+                AI FEATURES POWERED BY:
               </div>
               <img 
                 src="/images/AI.png" 
