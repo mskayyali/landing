@@ -262,7 +262,9 @@ export default function CommaReader() {
                       height: '100%',
                       display: 'flex',
                       alignItems: 'center',
-                      justifyContent: 'center'
+                      justifyContent: 'center',
+                      opacity: currentImageIndex === index ? 1 : 0,
+                      transition: 'opacity 0.5s ease-in-out'
                     }}
                     onMouseEnter={() => setIsVideoHovered(true)}
                     onMouseLeave={() => setIsVideoHovered(false)}
@@ -277,23 +279,21 @@ export default function CommaReader() {
                         width: '100%',
                         height: '100%',
                         objectFit: 'contain',
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        opacity: currentImageIndex === index ? 1 : 0,
-                        transition: 'opacity 0.5s ease-in-out'
+                        pointerEvents: 'none'
                       }}
                     />
                     {/* Video Controls */}
                     {isVideoHovered && currentImageIndex === index && (
                       <button
-                        onClick={() => setIsVideoMuted(!isVideoMuted)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsVideoMuted(!isVideoMuted);
+                        }}
                         style={{
                           position: 'absolute',
                           bottom: '20px',
                           right: '20px',
-                          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                          backgroundColor: 'rgba(0, 0, 0, 0.8)',
                           border: 'none',
                           borderRadius: '50%',
                           width: '40px',
@@ -305,10 +305,17 @@ export default function CommaReader() {
                           color: 'white',
                           fontSize: '16px',
                           zIndex: 10,
-                          transition: 'background-color 0.2s'
+                          transition: 'all 0.2s ease',
+                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
                         }}
-                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.9)'}
-                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+                          e.currentTarget.style.transform = 'scale(1.1)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+                          e.currentTarget.style.transform = 'scale(1)';
+                        }}
                       >
                         {isVideoMuted ? '🔇' : '🔊'}
                       </button>
@@ -444,7 +451,9 @@ export default function CommaReader() {
                         height: '100%',
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
+                        opacity: currentImageIndex === index ? 1 : 0,
+                        transition: 'opacity 0.5s ease-in-out'
                       }}
                       onMouseEnter={() => setIsVideoHovered(true)}
                       onMouseLeave={() => setIsVideoHovered(false)}
@@ -459,23 +468,21 @@ export default function CommaReader() {
                           width: '100%',
                           height: '100%',
                           objectFit: 'contain',
-                          position: 'absolute',
-                          top: '50%',
-                          left: '50%',
-                          transform: 'translate(-50%, -50%)',
-                          opacity: currentImageIndex === index ? 1 : 0,
-                          transition: 'opacity 0.5s ease-in-out'
+                          pointerEvents: 'none'
                         }}
                       />
                       {/* Video Controls */}
                       {isVideoHovered && currentImageIndex === index && (
                         <button
-                          onClick={() => setIsVideoMuted(!isVideoMuted)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsVideoMuted(!isVideoMuted);
+                          }}
                           style={{
                             position: 'absolute',
                             bottom: '15px',
                             right: '15px',
-                            backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
                             border: 'none',
                             borderRadius: '50%',
                             width: '35px',
@@ -487,10 +494,17 @@ export default function CommaReader() {
                             color: 'white',
                             fontSize: '14px',
                             zIndex: 10,
-                            transition: 'background-color 0.2s'
+                            transition: 'all 0.2s ease',
+                            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.3)'
                           }}
-                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.9)'}
-                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+                            e.currentTarget.style.transform = 'scale(1.1)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+                            e.currentTarget.style.transform = 'scale(1)';
+                          }}
                         >
                           {isVideoMuted ? '🔇' : '🔊'}
                         </button>
