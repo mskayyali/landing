@@ -427,7 +427,7 @@ export default function CommaReader() {
                 src="/images/AI.png" 
                 alt="Apple Intelligence" 
                 style={{
-                  height: '28px',
+                  height: '36px',
                   width: 'auto',
                   objectFit: 'contain',
                   objectPosition: 'left center'
