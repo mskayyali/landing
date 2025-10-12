@@ -69,6 +69,7 @@ export default function RootLayout({
         {/* Simple Analytics - 100% privacy-first */}
         <Script
           src="https://scripts.simpleanalyticscdn.com/latest.js"
+          async
           strategy="afterInteractive"
         />
         
