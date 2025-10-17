@@ -5,9 +5,9 @@ import { notFound } from 'next/navigation';
 import ProjectClient from './ProjectClient';
 
 interface ProjectPageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 const getProjectData = (slug: string) => {
@@ -30,6 +30,7 @@ const getProjectData = (slug: string) => {
           companyLogo: data.companyLogo || '',
           year: data.year || '',
           heroImage: data.heroImage || '',
+          link: data.link || '',
         },
         content,
       };
@@ -40,7 +41,8 @@ const getProjectData = (slug: string) => {
 };
 
 export async function generateMetadata({ params }: ProjectPageProps) {
-  const projectData = getProjectData(params.slug);
+  const { slug } = await params;
+  const projectData = getProjectData(slug);
   
   if (!projectData) {
     return {
@@ -78,8 +80,9 @@ export async function generateStaticParams() {
   return slugs;
 }
 
-export default function ProjectPage({ params }: ProjectPageProps) {
-  const projectData = getProjectData(params.slug);
+export default async function ProjectPage({ params }: ProjectPageProps) {
+  const { slug } = await params;
+  const projectData = getProjectData(slug);
 
   if (!projectData) {
     notFound();

@@ -87,6 +87,12 @@
   padding: 2rem;
   max-width: 900px;
   margin: 0 auto;
+  position: sticky;
+  top: 0;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 100;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .backLink {
@@ -105,15 +111,16 @@
   width: 100%;
   max-width: 1400px;
   margin: 0 auto 3rem;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0 2rem;
 }
 
 .heroImage img {
   width: 100%;
   height: auto;
   display: block;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  object-fit: cover;
 }
 
 .article {
@@ -132,6 +139,10 @@
   gap: 1rem;
   padding-bottom: 2rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.metaInfo {
+  flex: 1;
 }
 
 .companyLogo {
@@ -153,6 +164,32 @@
   font-size: 0.95rem;
   color: #9ca3af;
   margin: 0;
+}
+
+.projectLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.projectLink:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.projectLink svg {
+  width: 16px;
+  height: 16px;
 }
 
 .content {
@@ -234,9 +271,36 @@
   font-style: italic;
 }
 
+.content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 2rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.content img:hover {
+  opacity: 0.9;
+}
+
+.content video {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 2rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 @media (max-width: 768px) {
   .nav {
     padding: 1.5rem 1rem;
+  }
+
+  .heroImage {
+    padding: 0 1rem;
+    margin: 0 0 2rem;
   }
 
   .article {
@@ -244,8 +308,132 @@
   }
 
   .meta {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .metaInfo {
+    flex: 1;
+    min-width: 150px;
+  }
+
+  .projectLink {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+
+  .companyLogo {
+    width: 48px;
+    height: 48px;
+  }
+
+  .content h1 {
+    margin: 1.5rem 0 1rem;
+  }
+
+  .content h2 {
+    margin: 2rem 0 1rem;
+    padding-top: 1.5rem;
+  }
+
+  .content p {
+    font-size: 1rem;
+  }
+
+  .content li {
+    font-size: 1rem;
+  }
+}
+
+/* Lightbox Styles */
+.lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 2rem;
+  cursor: zoom-out;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.lightboxContent {
+  position: relative;
+  max-width: 95vw;
+  max-height: 95vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightboxImage {
+  max-width: 100%;
+  max-height: 95vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  cursor: default;
+  border-radius: 8px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.lightboxClose {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: all 0.2s;
+  z-index: 10000;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+}
+
+.lightboxClose:hover {
+  background: rgba(0, 0, 0, 0.8);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .lightbox {
+    padding: 1rem;
+  }
+
+  .lightboxClose {
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.25rem;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .lightboxImage {
+    max-height: 90vh;
   }
 }
 

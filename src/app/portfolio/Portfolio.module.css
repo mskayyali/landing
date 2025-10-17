@@ -111,8 +111,30 @@
 }
 
 @media (max-width: 768px) {
+  .container {
+    padding: 3rem 1rem;
+  }
+
+  .header {
+    margin-bottom: 3rem;
+  }
+
   .grid {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
+
+  .companyLogo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .projectName {
+    font-size: 1.25rem;
   }
 }
 
