@@ -61,6 +61,7 @@ export default function BioPage() {
   const [youtubeItems, setYoutubeItems] = useState<YouTubeItem[]>([]);
   const [isLoadingRss, setIsLoadingRss] = useState(true);
   const [isLoadingYoutube, setIsLoadingYoutube] = useState(true);
+  const [copied, setCopied] = useState(false);
   const isMobile = useIsMobile();
   const carouselRef = useRef<HTMLDivElement>(null);
 
@@ -111,6 +112,12 @@ export default function BioPage() {
         behavior: 'smooth'
       });
     }
+  };
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText('mskayyali@me.com');
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   if (!mounted) {
@@ -166,12 +173,12 @@ export default function BioPage() {
             >
               X (Twitter)
             </a>
-            <a 
-              href="mailto:mskayyali@me.com"
+            <button 
+              onClick={handleCopyEmail}
               className="px-4 py-2 rounded-full bg-green-400/10 hover:bg-green-400/20 text-green-400 transition-colors border border-green-400/20"
             >
-              Contact Me
-            </a>
+              {copied ? 'Copied!' : 'Contact'}
+            </button>
           </div>
         </div>
       </div>
