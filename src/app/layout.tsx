@@ -1,11 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { JetBrains_Mono } from 'next/font/google';
+import { Orbit } from 'next/font/google';
 import "./globals.css";
 import Script from 'next/script';
 
-const jetBrainsMono = JetBrains_Mono({
+const orbit = Orbit({
+  weight: '400',
   subsets: ['latin'],
-  variable: '--font-geist-mono',
+  variable: '--font-orbit',
 });
 
 export const viewport: Viewport = {
@@ -49,7 +50,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={jetBrainsMono.variable}>
+    <html lang="en" className={orbit.variable}>
       <body suppressHydrationWarning>
         {/* Microsoft Clarity */}
         <Script

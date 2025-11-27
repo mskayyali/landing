@@ -8,8 +8,8 @@ const nextConfig = {
     
     // Different CSP for development vs production
     const cspValue = isDev
-      ? "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.clarity.ms; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.clarity.ms https://formspree.io https://api.rss2json.com ws: wss:; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io"
-      : "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.clarity.ms; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.clarity.ms https://formspree.io https://api.rss2json.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io";
+      ? "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.clarity.ms https://scripts.clarity.ms https://scripts.simpleanalyticscdn.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.clarity.ms https://formspree.io https://api.rss2json.com ws: wss:; frame-src 'self' https://www.youtube.com https://youtube.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io"
+      : "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.clarity.ms https://scripts.clarity.ms https://scripts.simpleanalyticscdn.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.clarity.ms https://formspree.io https://api.rss2json.com; frame-src 'self' https://www.youtube.com https://youtube.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://formspree.io";
 
     return [
       {
@@ -49,4 +49,4 @@ const nextConfig = {
   }
 };
 
-module.exports = nextConfig; 
+module.exports = nextConfig;

@@ -1,13 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { TerminalOutput } from 'react-terminal-ui';
-import DraggableWindow from './DraggableWindow';
-import ProjectsWindow from './ProjectsWindow';
-import ContactWindow from './ContactWindow';
-import { FlickeringGrid } from './FlickeringGrid';
-import styles from './Terminal.module.css';
-import { themes, Theme } from '../themes';
+import { useState, useEffect, useRef } from 'react';
 import { useIsMobile } from '../hooks/useIsMobile';
 
 interface RSSItem {
@@ -23,103 +16,64 @@ interface YouTubeItem {
   pubDate: string;
 }
 
-const bootSequence = [];
-
-const welcomeMessage = [
-  "👋🏼 Hi! I'm Saleh Kayyali",
-  'Product & User Experience Designer',
-  <>
-    Designer and amateur developer with over 12 years of experience in software design. Interested in computer history and media. Currently working in financial software design and pursuing (<a href="https://interfacestudies.substack.com/" target="_blank" rel="noopener noreferrer" className={styles.link}>writing</a>), (<a href="https://www.youtube.com/channel/UCqv7gk4p_rB4nRz0j7B5yFA" target="_blank" rel="noopener noreferrer" className={styles.link}>making videos</a>), (<a href="#" className={styles.link} data-action="show-projects">some side projects</a>), and continuous learning.
-  </>,
-  <>
-    Find me on: (<a href="https://linkedin.com/in/mskayyali" target="_blank" rel="noopener noreferrer" className={styles.link}>LinkedIn</a>), (<a href="http://x.com/mskayyali" target="_blank" rel="noopener noreferrer" className={styles.link}>X</a>)
-  </>,
-  <>
-    Feel free to <a href="#" className={styles.link} data-action="show-contact">Contact me</a> anytime :) would love to collaborate.
-  </>
+const SIDE_PROJECTS = [
+  {
+    id: 'notetoself',
+    title: 'Note to Self',
+    description: 'AI Voice Memos.',
+    image: '/images/ntslogo.png',
+    link: '/notetoself',
+    tag: 'iOS',
+    imageFit: 'contain'
+  },
+  {
+    id: 'commareader',
+    title: 'Comma Reader',
+    description: 'On-Device AI EPUB & PDF Reader.',
+    image: '/images/commalogo.png',
+    link: '/commareader',
+    tag: 'iOS',
+    imageFit: 'contain'
+  },
+  {
+    id: 'archivestream',
+    title: 'Archive Stream',
+    description: 'Vintage radio player & archiver.',
+    image: '/images/archivestream.jpg',
+    link: '/archivestream',
+    tag: 'Web',
+    imageFit: 'cover'
+  },
+  {
+    id: 'presence',
+    title: 'Presence',
+    description: 'Time awareness app.',
+    image: '/images/presence.jpeg',
+    link: '#',
+    tag: 'MacOS',
+    imageFit: 'cover'
+  }
 ];
 
-// Background effect configuration
-const backgroundConfig = {
-  squareSize: 5,
-  gridGap: 6,
-  flickerChance: 0.2,
-  color: '#22b455',
-  maxOpacity: 0.35,
-};
-
-export default function TerminalComponent() {
+export default function BioPage() {
   const [mounted, setMounted] = useState(false);
-  const [terminalLineData, setTerminalLineData] = useState<React.ReactElement[]>([]);
-  const [isProjectsOpen, setIsProjectsOpen] = useState(false);
-  const [isContactOpen, setIsContactOpen] = useState(false);
-  const [windowPosition, setWindowPosition] = useState({ x: 0, y: 0 });
-  const [currentTheme, setCurrentTheme] = useState<Theme>(themes[0]);
-  const [projectsWindowPosition, setProjectsWindowPosition] = useState({
-    x: 50,
-    y: 50,
-  });
-  const [contactWindowPosition, setContactWindowPosition] = useState({
-    x: 100,
-    y: 100,
-  });
-  const [isMobile, setIsMobile] = useState(false);
   const [rssItems, setRssItems] = useState<RSSItem[]>([]);
   const [youtubeItems, setYoutubeItems] = useState<YouTubeItem[]>([]);
   const [isLoadingRss, setIsLoadingRss] = useState(true);
   const [isLoadingYoutube, setIsLoadingYoutube] = useState(true);
-  const keyCounterRef = useRef(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const processTerminalLine = (line: string | React.JSX.Element): string | React.JSX.Element => {
-    if (typeof line !== 'string') {
-      return line;
-    }
-
-    const urlMatch = line.match(/\[(.*?)\]/);
-    if (urlMatch) {
-      const url = urlMatch[1];
-      const textBeforeUrl = line.split('[')[0].trim();
-      return (
-        <span>
-          {textBeforeUrl}{' '}
-          <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.link}
-            onClick={(e) => {
-              if (url.startsWith('mailto:')) {
-                e.preventDefault();
-                window.location.href = url;
-              }
-            }}
-          >
-            {url}
-          </a>
-        </span>
-      );
-    }
-    return line;
-  };
-
-  const getNextKey = () => {
-    keyCounterRef.current += 1;
-    return `terminal-line-${keyCounterRef.current}`;
-  };
+  const isMobile = useIsMobile();
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   // Fetch RSS feeds
   useEffect(() => {
     const fetchFeeds = async () => {
       try {
-        // Fetch Substack RSS
         const substackResponse = await fetch(
           `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent('https://interfacestudies.substack.com/feed')}`
         );
         const substackData = await substackResponse.json();
-        
         if (substackData.status === 'ok') {
-          setRssItems(substackData.items.slice(0, 1)); // Get only 1 latest item
+          setRssItems(substackData.items.slice(0, 1));
         }
       } catch (error) {
         console.error('Failed to fetch Substack RSS:', error);
@@ -128,14 +82,12 @@ export default function TerminalComponent() {
       }
 
       try {
-        // Fetch YouTube RSS
         const youtubeResponse = await fetch(
           `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent('https://www.youtube.com/feeds/videos.xml?channel_id=UCqv7gk4p_rB4nRz0j7B5yFA')}`
         );
         const youtubeData = await youtubeResponse.json();
-        
         if (youtubeData.status === 'ok') {
-          setYoutubeItems(youtubeData.items.slice(0, 1)); // Get only 1 latest video
+          setYoutubeItems(youtubeData.items.slice(0, 1));
         }
       } catch (error) {
         console.error('Failed to fetch YouTube RSS:', error);
@@ -147,367 +99,280 @@ export default function TerminalComponent() {
     fetchFeeds();
   }, []);
 
-  // Handle mounting and setup
   useEffect(() => {
     setMounted(true);
-
-    // Set up window positioning
-    const handleResize = () => {
-      const screenWidth = window.innerWidth;
-      const screenHeight = window.innerHeight;
-      const isMobileDevice = screenWidth <= 768;
-      setIsMobile(isMobileDevice);
-
-      if (isMobileDevice) {
-        setWindowPosition({ x: screenWidth <= 480 ? 0 : 8, y: 0 });
-      } else {
-        const width = Math.min(800, screenWidth - 64); // Standard terminal size
-        const height = Math.min(450, screenHeight - 64); // Compact terminal height
-        const x = Math.max(0, Math.floor((screenWidth - width) / 2));
-        const y = Math.max(0, Math.floor((screenHeight - height) / 2)); // Centered in viewport
-        setWindowPosition({ x, y });
-      }
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('orientationchange', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('orientationchange', handleResize);
-    };
   }, []);
 
-  // Display welcome message and Latest section
-  useEffect(() => {
-    if (!mounted) return;
-
-    const timer = setTimeout(() => {
-      // Convert welcome message to terminal outputs
-      const welcomeLines = welcomeMessage.map(line => (
-        <TerminalOutput key={getNextKey()}>
-          {processTerminalLine(line)}
-        </TerminalOutput>
-      ));
-
-      // Create Latest section with four items in a row (no header)
-      const latestLines = [];
-      const latestContent = (
-        <TerminalOutput key={getNextKey()}>
-          <div 
-            className={styles.latestGrid}
-            style={{ 
-              display: 'grid', 
-              gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr 1fr',
-              gap: isMobile ? '1.5rem' : '2rem',
-              marginTop: '1rem',
-              alignItems: 'start'
-            }}
-          >
-            {/* Note to Self Project */}
-            <div 
-              className={styles.latestItem}
-              style={{ 
-                display: 'flex', 
-                flexDirection: 'column', 
-                height: isMobile ? 'auto' : '120px',
-                minHeight: isMobile ? '80px' : '120px'
-              }}
-            >
-              <div style={{ 
-                display: 'flex', 
-                alignItems: 'flex-start', 
-                gap: '0.75rem',
-                marginBottom: '0.5rem',
-                flex: 1
-              }}>
-                <img 
-                  src="/images/ntslogo.png" 
-                  alt="Note to Self Logo" 
-                  style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '6px',
-                    objectFit: 'cover',
-                    flexShrink: 0
-                  }}
-                />
-                <div style={{ flex: 1 }}>
-                  <div style={{ 
-                    color: 'var(--theme-text)', 
-                    fontWeight: '500',
-                    fontSize: '0.9rem',
-                    marginBottom: '0.25rem'
-                  }}>
-                    Note to Self
-                  </div>
-                  <div style={{ 
-                    color: 'var(--theme-dim-text)', 
-                    fontSize: '0.8rem'
-                  }}>
-                    AI Voice Memos
-                  </div>
-                </div>
-              </div>
-              <div style={{ marginTop: 'auto' }}>
-                <a href="/notetoself" className={styles.link} style={{ fontSize: '0.8rem' }}>
-                  View Project
-                </a>
-              </div>
-            </div>
-
-            {/* Comma Reader Project */}
-            <div 
-              className={styles.latestItem}
-              style={{ 
-                display: 'flex', 
-                flexDirection: 'column', 
-                height: isMobile ? 'auto' : '120px',
-                minHeight: isMobile ? '80px' : '120px'
-              }}
-            >
-              <div style={{ 
-                display: 'flex', 
-                alignItems: 'flex-start', 
-                gap: '0.75rem',
-                marginBottom: '0.5rem',
-                flex: 1
-              }}>
-                <img 
-                  src="/images/commalogo.png" 
-                  alt="Comma Reader Logo" 
-                  style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '6px',
-                    objectFit: 'cover',
-                    flexShrink: 0
-                  }}
-                />
-                <div style={{ flex: 1 }}>
-                  <div style={{ 
-                    color: 'var(--theme-text)', 
-                    fontWeight: '500',
-                    fontSize: '0.9rem',
-                    marginBottom: '0.25rem'
-                  }}>
-                    Comma Reader
-                  </div>
-                  <div style={{ 
-                    color: 'var(--theme-dim-text)', 
-                    fontSize: '0.8rem'
-                  }}>
-                    On‑Device AI EPUB & PDF Reader for iOS
-                  </div>
-                </div>
-              </div>
-              <div style={{ marginTop: 'auto' }}>
-                <a href="/commareader" className={styles.link} style={{ fontSize: '0.8rem' }}>
-                  View Project
-                </a>
-              </div>
-            </div>
-
-            {/* Latest Article */}
-            <div 
-              className={styles.latestItem}
-              style={{ 
-                display: 'flex', 
-                flexDirection: 'column', 
-                height: isMobile ? 'auto' : '120px',
-                minHeight: isMobile ? '80px' : '120px'
-              }}
-            >
-              <div style={{ flex: 1 }}>
-                <div style={{ 
-                  color: 'var(--theme-text)', 
-                  fontWeight: '500',
-                  fontSize: '0.9rem',
-                  marginBottom: '0.5rem'
-                }}>
-                  Latest Article
-                </div>
-                {isLoadingRss ? (
-                  <div style={{ color: 'var(--theme-dim-text)', fontSize: '0.8rem' }}>Loading...</div>
-                ) : rssItems.length > 0 ? (
-                  <div style={{ 
-                    color: 'var(--theme-dim-text)', 
-                    fontSize: '0.8rem',
-                    lineHeight: '1.4'
-                  }}>
-                    {rssItems[0].title.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'")}
-                  </div>
-                ) : (
-                  <div style={{ color: 'var(--theme-dim-text)', fontSize: '0.8rem' }}>No articles found</div>
-                )}
-              </div>
-              {!isLoadingRss && rssItems.length > 0 && (
-                <div style={{ marginTop: 'auto', fontSize: '0.8rem' }}>
-                  <a href={rssItems[0].link} target="_blank" rel="noopener noreferrer" className={styles.link}>
-                    Read Article
-                  </a>
-                  {' • '}
-                  <a href="https://interfacestudies.substack.com/" target="_blank" rel="noopener noreferrer" className={styles.link}>
-                    Subscribe
-                  </a>
-                </div>
-              )}
-            </div>
-
-            {/* Latest Video */}
-            <div 
-              className={styles.latestItem}
-              style={{ 
-                display: 'flex', 
-                flexDirection: 'column', 
-                height: isMobile ? 'auto' : '120px',
-                minHeight: isMobile ? '80px' : '120px'
-              }}
-            >
-              <div style={{ flex: 1 }}>
-                <div style={{ 
-                  color: 'var(--theme-text)', 
-                  fontWeight: '500',
-                  fontSize: '0.9rem',
-                  marginBottom: '0.5rem'
-                }}>
-                  Latest Video
-                </div>
-                {isLoadingYoutube ? (
-                  <div style={{ color: 'var(--theme-dim-text)', fontSize: '0.8rem' }}>Loading...</div>
-                ) : youtubeItems.length > 0 ? (
-                  <div style={{ 
-                    color: 'var(--theme-dim-text)', 
-                    fontSize: '0.8rem',
-                    lineHeight: '1.4'
-                  }}>
-                    {youtubeItems[0].title.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'")}
-                  </div>
-                ) : (
-                  <div style={{ color: 'var(--theme-dim-text)', fontSize: '0.8rem' }}>No videos found</div>
-                )}
-              </div>
-              {!isLoadingYoutube && youtubeItems.length > 0 && (
-                <div style={{ marginTop: 'auto' }}>
-                  <a href={youtubeItems[0].link} target="_blank" rel="noopener noreferrer" className={styles.link} style={{ fontSize: '0.8rem' }}>
-                    Watch Video
-                  </a>
-                </div>
-              )}
-            </div>
-          </div>
-        </TerminalOutput>
-      );
-
-      latestLines.push(latestContent);
-
-      setTerminalLineData([...welcomeLines, ...latestLines]);
-    }, 500);
-
-    // Add click handler for project link
-    const handleClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      const action = target.closest('[data-action]')?.getAttribute('data-action');
-
-      if (action === 'show-projects') {
-        e.preventDefault();
-        setIsProjectsOpen(true);
-      }
-      
-      if (action === 'show-contact') {
-        e.preventDefault();
-        setIsContactOpen(true);
-      }
-    };
-
-    document.addEventListener('click', handleClick);
-    
-    return () => {
-      clearTimeout(timer);
-      document.removeEventListener('click', handleClick);
-    };
-  }, [mounted, rssItems, youtubeItems, isLoadingRss, isLoadingYoutube]);
-
-  // Update CSS variables when theme changes
-  useEffect(() => {
-    if (!containerRef.current) return;
-    
-    const root = containerRef.current;
-    root.style.setProperty('--theme-primary', currentTheme.primary);
-    root.style.setProperty('--theme-text', currentTheme.text);
-    root.style.setProperty('--theme-dim-text', currentTheme.dimText);
-    root.style.setProperty('--theme-border', currentTheme.border);
-    root.style.setProperty('--theme-background', currentTheme.background);
-  }, [currentTheme]);
+  const scrollCarousel = (direction: 'left' | 'right') => {
+    if (carouselRef.current) {
+      const scrollAmount = 340; // Approx card width + gap
+      carouselRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   if (!mounted) {
     return (
-      <div className={styles.layout}>
-        <div className={styles.backgroundLayer} style={{ backgroundColor: '#111' }}>
-          <div style={{ width: '100%', height: '100%', background: '#000' }} />
-        </div>
-        <div className={styles.windowsLayer}>
-          <div className="flex items-center justify-center h-screen">
-            <div className="text-green-400">Loading...</div>
-          </div>
-        </div>
+      <div className="h-screen w-full bg-black text-white flex items-center justify-center">
+        <div className="text-green-400 animate-pulse">Loading...</div>
       </div>
     );
   }
 
   return (
-    <div ref={containerRef} className={styles.layout}>
-      {/* Background Layer */}
-      <div className={styles.backgroundLayer}>
-        <FlickeringGrid
-          className={styles.backgroundGrid}
-          squareSize={backgroundConfig.squareSize}
-          gridGap={backgroundConfig.gridGap}
-          flickerChance={backgroundConfig.flickerChance}
-          color={currentTheme.gridColor}
-          maxOpacity={currentTheme.maxOpacity}
-        />
+    <div className="min-h-screen md:h-screen w-full bg-black text-gray-100 selection:bg-green-400 selection:text-black flex flex-col md:flex-row p-4 md:p-8 gap-4 md:gap-8 md:overflow-hidden">
+      
+      {/* Left Column: Bio & Intro */}
+      <div className="w-full md:w-1/3 flex flex-col justify-start md:justify-between h-auto md:h-full fade-in-up gap-4 md:gap-0">
+        <div>
+          <header className="mb-4 md:mb-12">
+            <h1 className="text-4xl md:text-6xl font-bold mb-2 md:mb-4 tracking-tight text-white leading-tight">
+              Saleh<br/>Kayyali
+            </h1>
+            <h2 className="text-xl md:text-2xl text-gray-400 font-medium">
+              Product & UX Designer
+            </h2>
+          </header>
+          
+          <div className="prose prose-invert text-gray-300 leading-relaxed max-w-md">
+            <p className="mb-4 md:mb-6 text-base md:text-lg">
+              Designer and amateur developer with over 12 years of experience in software design. 
+              Interested in computer history and media.
+            </p>
+            <p className="text-base md:text-lg">
+              Currently working in financial software design and pursuing writing, making videos, 
+              and continuous learning.
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-2 md:mt-auto">
+          <div className="flex flex-wrap gap-3 text-sm font-medium">
+            <a 
+              href="https://linkedin.com/in/mskayyali" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="px-4 py-2 rounded-full bg-neutral-900 hover:bg-neutral-800 text-gray-300 hover:text-white transition-colors border border-neutral-800"
+            >
+              LinkedIn
+            </a>
+            <a 
+              href="http://x.com/mskayyali" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="px-4 py-2 rounded-full bg-neutral-900 hover:bg-neutral-800 text-gray-300 hover:text-white transition-colors border border-neutral-800"
+            >
+              X (Twitter)
+            </a>
+            <a 
+              href="mailto:mskayyali@me.com"
+              className="px-4 py-2 rounded-full bg-green-400/10 hover:bg-green-400/20 text-green-400 transition-colors border border-green-400/20"
+            >
+              Contact Me
+            </a>
+          </div>
+        </div>
       </div>
 
-      {/* Windows Layer */}
-      <div className={styles.windowsLayer}>
-        <DraggableWindow
-          title="mskayyali.com"
-          className={styles.terminal}
-          onClose={() => {}}
-          position={windowPosition}
-          onPositionChange={setWindowPosition}
-          disableDragging={isMobile}
-          currentTheme={currentTheme}
-        >
-          <div className={styles.terminalContent}>
-            <div className={styles.terminalOutput}>
-              {terminalLineData}
+      {/* Right Column: Content Grid */}
+      <div className="w-full md:w-2/3 flex flex-col gap-4 md:gap-6 h-auto md:h-full md:overflow-y-auto no-scrollbar">
+        
+        {/* Top: Side Projects Carousel */}
+        <div className="flex-1 min-h-[420px] md:min-h-[300px] bg-neutral-900/50 rounded-3xl p-6 md:p-8 border border-neutral-800 flex flex-col fade-in-up" style={{ animationDelay: '0.1s' }}>
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-xs uppercase tracking-widest text-gray-500 font-bold flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-green-400"></span>
+              Side Projects & Design Exploration
+            </h3>
+            
+            {/* Carousel Controls */}
+            <div className="flex gap-2">
+              <button 
+                onClick={() => scrollCarousel('left')}
+                className="p-2 w-8 h-8 flex items-center justify-center rounded-full bg-neutral-800 hover:bg-neutral-700 text-gray-400 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-green-400/50"
+                aria-label="Scroll left"
+              >
+                ←
+              </button>
+              <button 
+                onClick={() => scrollCarousel('right')}
+                className="p-2 w-8 h-8 flex items-center justify-center rounded-full bg-neutral-800 hover:bg-neutral-700 text-gray-400 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-green-400/50"
+                aria-label="Scroll right"
+              >
+                →
+              </button>
             </div>
           </div>
-        </DraggableWindow>
+          
+          <div 
+            ref={carouselRef}
+            className="flex-1 flex gap-6 md:gap-6 overflow-x-auto snap-x snap-mandatory pb-4 no-scrollbar items-start md:items-stretch"
+            style={{ scrollBehavior: 'smooth' }}
+          >
+            {SIDE_PROJECTS.map((project) => (
+              <div key={project.id} className="snap-center flex-shrink-0 w-[85vw] max-w-[340px] md:w-[320px] flex flex-col">
+                {/* Mobile Header */}
+                <div className="md:hidden mb-3 px-1">
+                  <div className="flex items-center justify-between mb-1">
+                    <h4 className="text-xl font-bold text-white">{project.title}</h4>
+                    <span className="text-xs font-medium text-neutral-500 border border-neutral-800 px-2 py-1 rounded bg-neutral-900">{project.tag}</span>
+                  </div>
+                  <p className="text-gray-400 text-sm leading-relaxed line-clamp-2">{project.description}</p>
+                </div>
 
-        {isProjectsOpen && (
-          <ProjectsWindow
-            onClose={() => setIsProjectsOpen(false)}
-            disableDragging={isMobile}
-            currentTheme={currentTheme}
-            position={projectsWindowPosition}
-            onPositionChange={setProjectsWindowPosition}
-          />
-        )}
-        
-        {isContactOpen && (
-          <ContactWindow
-            onClose={() => setIsContactOpen(false)}
-            disableDragging={isMobile}
-            currentTheme={currentTheme}
-            position={contactWindowPosition}
-            onPositionChange={setContactWindowPosition}
-          />
-        )}
+                <a 
+                  href={project.link}
+                  className="group relative block h-full bg-transparent md:bg-black md:rounded-2xl md:border md:border-neutral-800 md:hover:border-neutral-600 transition-all overflow-hidden flex flex-col"
+                >
+                  <div className={`w-full relative overflow-hidden flex-shrink-0 rounded-2xl md:rounded-none border border-neutral-800 md:border-none ${
+                    project.imageFit === 'contain' ? 'bg-neutral-800' : 'bg-neutral-900'
+                  } h-[200px] md:h-48 md:aspect-[16/9]`}>
+                    <img 
+                      src={project.image} 
+                      alt={project.title} 
+                      className={`w-full h-full transition-opacity duration-500 ${
+                        project.imageFit === 'contain' 
+                          ? 'object-contain p-6 opacity-100' 
+                          : 'object-cover opacity-80 group-hover:opacity-100'
+                      }`}
+                    />
+                    {/* Desktop Tag */}
+                    <div className="hidden md:block absolute top-3 right-3 bg-black/60 backdrop-blur-md px-2 py-1 rounded-md text-xs font-medium text-white border border-white/10">
+                      {project.tag}
+                    </div>
+                  </div>
+
+                  {/* Desktop Text Content */}
+                  <div className="hidden md:flex p-5 flex-col flex-1 border-t border-neutral-800">
+                    <h4 className="text-xl font-bold text-white mb-2 group-hover:text-green-400 transition-colors">
+                      {project.title}
+                    </h4>
+                    <p className="text-gray-400 text-sm leading-relaxed">
+                      {project.description}
+                    </p>
+                    <div className="mt-auto pt-4 flex items-center text-sm text-neutral-500 group-hover:text-white transition-colors">
+                      View Project <span className="ml-2">→</span>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            ))}
+            
+            {/* Spacer for end of carousel scrolling */}
+            <div className="w-4 flex-shrink-0"></div>
+          </div>
+        </div>
+
+        {/* Bottom: Latest Updates */}
+        <div className="h-auto md:h-[40%] flex flex-col md:flex-row gap-4 md:gap-6 fade-in-up" style={{ animationDelay: '0.2s' }}>
+          
+          {/* Latest Article */}
+          <div className="flex-1 bg-neutral-900/50 rounded-3xl p-6 border border-neutral-800 flex flex-col hover:bg-neutral-900/80 transition-colors">
+            <div className="mb-4 flex justify-between items-start">
+              <span className="text-xs font-bold tracking-wider text-green-400 bg-green-400/10 px-3 py-1 rounded-full">
+                WRITING
+              </span>
+              <a 
+                href="https://interfacestudies.substack.com/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-xs text-gray-500 hover:text-white transition-colors"
+              >
+                View All
+              </a>
+            </div>
+            
+            {isLoadingRss ? (
+              <div className="text-gray-500 text-sm my-auto">Loading...</div>
+            ) : rssItems.length > 0 ? (
+              <div className="flex flex-col h-full">
+                <h4 className="text-lg font-bold text-white mb-3 line-clamp-2 leading-snug group-hover:text-green-400 transition-colors">
+                  <a href={rssItems[0].link} target="_blank" rel="noopener noreferrer">
+                    {rssItems[0].title.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'")}
+                  </a>
+                </h4>
+                <a 
+                  href={rssItems[0].link} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="mt-auto text-sm text-gray-400 hover:text-white transition-colors inline-flex items-center"
+                >
+                  Read Article ↗
+                </a>
+              </div>
+            ) : (
+              <div className="text-gray-500 text-sm my-auto">No articles found</div>
+            )}
+          </div>
+
+          {/* Latest Video */}
+          <div className="flex-1 bg-neutral-900/50 rounded-3xl p-6 border border-neutral-800 flex flex-col hover:bg-neutral-900/80 transition-colors">
+            <div className="mb-4 flex justify-between items-start">
+              <span className="text-xs font-bold tracking-wider text-red-400 bg-red-400/10 px-3 py-1 rounded-full">
+                VIDEO
+              </span>
+              <a 
+                href="https://www.youtube.com/channel/UCqv7gk4p_rB4nRz0j7B5yFA" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-xs text-gray-500 hover:text-white transition-colors"
+              >
+                View All
+              </a>
+            </div>
+
+            {isLoadingYoutube ? (
+              <div className="text-gray-500 text-sm my-auto">Loading...</div>
+            ) : youtubeItems.length > 0 ? (
+              <div className="flex flex-col h-full">
+                <h4 className="text-lg font-bold text-white mb-3 line-clamp-2 leading-snug">
+                  <a href={youtubeItems[0].link} target="_blank" rel="noopener noreferrer">
+                    {youtubeItems[0].title.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'")}
+                  </a>
+                </h4>
+                <a 
+                  href={youtubeItems[0].link} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="mt-auto text-sm text-gray-400 hover:text-white transition-colors inline-flex items-center"
+                >
+                  Watch Video ↗
+                </a>
+              </div>
+            ) : (
+              <div className="text-gray-500 text-sm my-auto">No videos found</div>
+            )}
+          </div>
+
+        </div>
+
       </div>
+      
+      <style jsx global>{`
+        .no-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+        .no-scrollbar {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .fade-in-up {
+          animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          opacity: 0;
+        }
+      `}</style>
     </div>
   );
-} 
+}
