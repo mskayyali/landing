@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useIsMobile } from '../hooks/useIsMobile';
 
 interface RSSItem {
@@ -63,7 +63,6 @@ export default function BioPage() {
   const [isLoadingYoutube, setIsLoadingYoutube] = useState(true);
   const [copied, setCopied] = useState(false);
   const isMobile = useIsMobile();
-  const carouselRef = useRef<HTMLDivElement>(null);
 
   // Fetch RSS feeds
   useEffect(() => {
@@ -103,16 +102,6 @@ export default function BioPage() {
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  const scrollCarousel = (direction: 'left' | 'right') => {
-    if (carouselRef.current) {
-      const scrollAmount = 340; // Approx card width + gap
-      carouselRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth'
-      });
-    }
-  };
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText('mskayyali@me.com');
@@ -177,7 +166,7 @@ export default function BioPage() {
               onClick={handleCopyEmail}
               className="px-4 py-2 rounded-full bg-green-400/10 hover:bg-green-400/20 text-green-400 transition-colors border border-green-400/20"
             >
-              {copied ? 'Copied!' : 'Contact'}
+              {copied ? 'Copied!' : 'Email'}
             </button>
           </div>
         </div>
@@ -186,89 +175,58 @@ export default function BioPage() {
       {/* Right Column: Content Grid */}
       <div className="w-full md:w-2/3 flex flex-col gap-4 md:gap-6 h-auto md:h-full md:overflow-y-auto no-scrollbar">
         
-        {/* Top: Side Projects Carousel */}
+        {/* Top: Side Projects List */}
         <div className="flex-1 min-h-[420px] md:min-h-[300px] bg-neutral-900/50 rounded-3xl p-6 md:p-8 border border-neutral-800 flex flex-col fade-in-up" style={{ animationDelay: '0.1s' }}>
-          <div className="flex justify-between items-center mb-6">
+          <div className="mb-6">
             <h3 className="text-xs uppercase tracking-widest text-gray-500 font-bold flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-green-400"></span>
               Side Projects & Design Exploration
+              <span className="text-gray-600 font-normal">({SIDE_PROJECTS.length})</span>
             </h3>
-            
-            {/* Carousel Controls */}
-            <div className="flex gap-2">
-              <button 
-                onClick={() => scrollCarousel('left')}
-                className="p-2 w-8 h-8 flex items-center justify-center rounded-full bg-neutral-800 hover:bg-neutral-700 text-gray-400 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-green-400/50"
-                aria-label="Scroll left"
-              >
-                ←
-              </button>
-              <button 
-                onClick={() => scrollCarousel('right')}
-                className="p-2 w-8 h-8 flex items-center justify-center rounded-full bg-neutral-800 hover:bg-neutral-700 text-gray-400 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-green-400/50"
-                aria-label="Scroll right"
-              >
-                →
-              </button>
-            </div>
           </div>
           
-          <div 
-            ref={carouselRef}
-            className="flex-1 flex gap-6 md:gap-6 overflow-x-auto snap-x snap-mandatory pb-4 no-scrollbar items-start md:items-stretch"
-            style={{ scrollBehavior: 'smooth' }}
-          >
-            {SIDE_PROJECTS.map((project) => (
-              <div key={project.id} className="snap-center flex-shrink-0 w-[85vw] max-w-[340px] md:w-[320px] flex flex-col">
-                {/* Mobile Header */}
-                <div className="md:hidden mb-3 px-1">
-                  <div className="flex items-center justify-between mb-1">
-                    <h4 className="text-xl font-bold text-white">{project.title}</h4>
-                    <span className="text-xs font-medium text-neutral-500 border border-neutral-800 px-2 py-1 rounded bg-neutral-900">{project.tag}</span>
-                  </div>
-                  <p className="text-gray-400 text-sm leading-relaxed line-clamp-2">{project.description}</p>
-                </div>
-
-                <a 
+          <div className="flex-1 overflow-y-auto no-scrollbar">
+            <div className="flex flex-col gap-4">
+              {SIDE_PROJECTS.map((project) => (
+                <a
+                  key={project.id}
                   href={project.link}
-                  className="group relative block h-full bg-transparent md:bg-black md:rounded-2xl md:border md:border-neutral-800 md:hover:border-neutral-600 transition-all overflow-hidden flex flex-col"
+                  className="group flex items-start gap-4 p-4 rounded-xl border border-neutral-800 hover:border-neutral-700 hover:bg-neutral-900/50 transition-all"
                 >
-                  <div className={`w-full relative overflow-hidden flex-shrink-0 rounded-2xl md:rounded-none border border-neutral-800 md:border-none ${
+                  {/* Small squared image */}
+                  <div className={`flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden border border-neutral-800 ${
                     project.imageFit === 'contain' ? 'bg-neutral-800' : 'bg-neutral-900'
-                  } h-[200px] md:h-48 md:aspect-[16/9]`}>
+                  }`}>
                     <img 
                       src={project.image} 
                       alt={project.title} 
-                      className={`w-full h-full transition-opacity duration-500 ${
+                      className={`w-full h-full transition-opacity duration-300 ${
                         project.imageFit === 'contain' 
-                          ? 'object-contain p-6 opacity-100' 
+                          ? 'object-contain p-2 opacity-100' 
                           : 'object-cover opacity-80 group-hover:opacity-100'
                       }`}
                     />
-                    {/* Desktop Tag */}
-                    <div className="hidden md:block absolute top-3 right-3 bg-black/60 backdrop-blur-md px-2 py-1 rounded-md text-xs font-medium text-white border border-white/10">
-                      {project.tag}
-                    </div>
                   </div>
 
-                  {/* Desktop Text Content */}
-                  <div className="hidden md:flex p-5 flex-col flex-1 border-t border-neutral-800">
-                    <h4 className="text-xl font-bold text-white mb-2 group-hover:text-green-400 transition-colors">
+                  {/* Title and Description */}
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-base md:text-lg font-bold text-white mb-1 group-hover:text-green-400 transition-colors">
                       {project.title}
                     </h4>
-                    <p className="text-gray-400 text-sm leading-relaxed">
+                    <p className="text-sm md:text-base text-gray-400 leading-relaxed">
                       {project.description}
                     </p>
-                    <div className="mt-auto pt-4 flex items-center text-sm text-neutral-500 group-hover:text-white transition-colors">
-                      View Project <span className="ml-2">→</span>
-                    </div>
+                  </div>
+
+                  {/* View link on the right */}
+                  <div className="flex-shrink-0 flex items-center">
+                    <span className="text-sm text-neutral-500 group-hover:text-white transition-colors whitespace-nowrap">
+                      View <span className="ml-1">→</span>
+                    </span>
                   </div>
                 </a>
-              </div>
-            ))}
-            
-            {/* Spacer for end of carousel scrolling */}
-            <div className="w-4 flex-shrink-0"></div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -290,10 +248,10 @@ export default function BioPage() {
                 View All
               </a>
             </div>
-            
-            {isLoadingRss ? (
+
+                {isLoadingRss ? (
               <div className="text-gray-500 text-sm my-auto">Loading...</div>
-            ) : rssItems.length > 0 ? (
+                ) : rssItems.length > 0 ? (
               <div className="flex flex-col h-full">
                 <h4 className="text-lg font-bold text-white mb-3 line-clamp-2 leading-snug group-hover:text-green-400 transition-colors">
                   <a href={rssItems[0].link} target="_blank" rel="noopener noreferrer">
@@ -307,14 +265,14 @@ export default function BioPage() {
                   className="mt-auto text-sm text-gray-400 hover:text-white transition-colors inline-flex items-center"
                 >
                   Read Article ↗
-                </a>
-              </div>
+                  </a>
+                </div>
             ) : (
               <div className="text-gray-500 text-sm my-auto">No articles found</div>
-            )}
-          </div>
+              )}
+            </div>
 
-          {/* Latest Video */}
+            {/* Latest Video */}
           <div className="flex-1 bg-neutral-900/50 rounded-3xl p-6 border border-neutral-800 flex flex-col hover:bg-neutral-900/80 transition-colors">
             <div className="mb-4 flex justify-between items-start">
               <span className="text-xs font-bold tracking-wider text-red-400 bg-red-400/10 px-3 py-1 rounded-full">
@@ -328,11 +286,11 @@ export default function BioPage() {
               >
                 View All
               </a>
-            </div>
+                </div>
 
-            {isLoadingYoutube ? (
+                {isLoadingYoutube ? (
               <div className="text-gray-500 text-sm my-auto">Loading...</div>
-            ) : youtubeItems.length > 0 ? (
+                ) : youtubeItems.length > 0 ? (
               <div className="flex flex-col h-full">
                 <h4 className="text-lg font-bold text-white mb-3 line-clamp-2 leading-snug">
                   <a href={youtubeItems[0].link} target="_blank" rel="noopener noreferrer">
@@ -346,17 +304,17 @@ export default function BioPage() {
                   className="mt-auto text-sm text-gray-400 hover:text-white transition-colors inline-flex items-center"
                 >
                   Watch Video ↗
-                </a>
-              </div>
+                  </a>
+                </div>
             ) : (
               <div className="text-gray-500 text-sm my-auto">No videos found</div>
-            )}
+              )}
           </div>
 
         </div>
 
       </div>
-      
+
       <style jsx global>{`
         .no-scrollbar::-webkit-scrollbar {
           display: none;
@@ -382,4 +340,4 @@ export default function BioPage() {
       `}</style>
     </div>
   );
-}
+} 
