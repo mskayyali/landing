@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const screenshots = [
   { type: 'video', src: '/video/commapreview.mp4' },
@@ -14,10 +14,28 @@ const screenshots = [
 
 export default function CommaReader() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const desktopVideoRef = useRef<HTMLVideoElement>(null);
+  const mobileVideoRef = useRef<HTMLVideoElement>(null);
 
   const handleDotClick = (index: number) => {
     setCurrentImageIndex(index);
   };
+
+  // Ensure video starts muted across all browsers and OS
+  useEffect(() => {
+    const ensureMuted = (video: HTMLVideoElement | null) => {
+      if (video) {
+        video.muted = true;
+        video.volume = 0;
+      }
+    };
+
+    // Ensure videos start muted when they become active
+    if (currentImageIndex === 0) {
+      ensureMuted(desktopVideoRef.current);
+      ensureMuted(mobileVideoRef.current);
+    }
+  }, [currentImageIndex]);
 
   return (
     <div style={{
@@ -279,6 +297,7 @@ export default function CommaReader() {
                 const isActive = currentImageIndex === index;
                 return screenshot.type === 'video' ? (
                   <video
+                    ref={desktopVideoRef}
                     key={index}
                     src={screenshot.src}
                     autoPlay
@@ -455,6 +474,7 @@ export default function CommaReader() {
                   const isActive = currentImageIndex === index;
                   return screenshot.type === 'video' ? (
                     <video
+                      ref={mobileVideoRef}
                       key={index}
                       src={screenshot.src}
                       autoPlay
