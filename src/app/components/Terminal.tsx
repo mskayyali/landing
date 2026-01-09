@@ -1,20 +1,8 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { useIsMobile } from '../hooks/useIsMobile';
+import Link from 'next/link';
 
-interface RSSItem {
-  title: string;
-  link: string;
-  description: string;
-  pubDate: string;
-}
-
-interface YouTubeItem {
-  title: string;
-  link: string;
-  pubDate: string;
-}
 
 const SIDE_PROJECTS = [
   {
@@ -57,47 +45,7 @@ const SIDE_PROJECTS = [
 
 export default function BioPage() {
   const [mounted, setMounted] = useState(false);
-  const [rssItems, setRssItems] = useState<RSSItem[]>([]);
-  const [youtubeItems, setYoutubeItems] = useState<YouTubeItem[]>([]);
-  const [isLoadingRss, setIsLoadingRss] = useState(true);
-  const [isLoadingYoutube, setIsLoadingYoutube] = useState(true);
   const [copied, setCopied] = useState(false);
-  const isMobile = useIsMobile();
-
-  // Fetch RSS feeds
-  useEffect(() => {
-    const fetchFeeds = async () => {
-      try {
-        const substackResponse = await fetch(
-          `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent('https://interfacestudies.substack.com/feed')}`
-        );
-        const substackData = await substackResponse.json();
-        if (substackData.status === 'ok') {
-          setRssItems(substackData.items.slice(0, 1));
-        }
-      } catch (error) {
-        console.error('Failed to fetch Substack RSS:', error);
-      } finally {
-        setIsLoadingRss(false);
-      }
-
-      try {
-        const youtubeResponse = await fetch(
-          `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent('https://www.youtube.com/feeds/videos.xml?channel_id=UCqv7gk4p_rB4nRz0j7B5yFA')}`
-        );
-        const youtubeData = await youtubeResponse.json();
-        if (youtubeData.status === 'ok') {
-          setYoutubeItems(youtubeData.items.slice(0, 1));
-        }
-      } catch (error) {
-        console.error('Failed to fetch YouTube RSS:', error);
-      } finally {
-        setIsLoadingYoutube(false);
-      }
-    };
-
-    fetchFeeds();
-  }, []);
 
   useEffect(() => {
     setMounted(true);
@@ -230,87 +178,34 @@ export default function BioPage() {
           </div>
         </div>
 
-        {/* Bottom: Latest Updates */}
-        <div className="h-auto md:h-[40%] flex flex-col md:flex-row gap-4 md:gap-6 fade-in-up" style={{ animationDelay: '0.2s' }}>
-          
-          {/* Latest Article */}
-          <div className="flex-1 bg-neutral-900/50 rounded-3xl p-6 border border-neutral-800 flex flex-col hover:bg-neutral-900/80 transition-colors">
-            <div className="mb-4 flex justify-between items-start">
-              <span className="text-xs font-bold tracking-wider text-green-400 bg-green-400/10 px-3 py-1 rounded-full">
-                WRITING
-              </span>
-              <a 
-                href="https://interfacestudies.substack.com/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-xs text-gray-500 hover:text-white transition-colors"
-              >
-                View All
-              </a>
+        {/* Bottom: Interface Studies */}
+        <div className="h-auto md:h-[40%] fade-in-up" style={{ animationDelay: '0.2s' }}>
+          <div className="bg-neutral-900/50 rounded-3xl p-6 md:p-8 border border-neutral-800 hover:bg-neutral-900/80 transition-colors flex flex-col md:flex-row gap-6 md:gap-8 items-start">
+            {/* Image on the left */}
+            <div className="flex-shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-lg overflow-hidden border border-neutral-800">
+              <img 
+                src="/IS.jpg" 
+                alt="Interface Studies" 
+                className="w-full h-full object-cover"
+              />
             </div>
-
-                {isLoadingRss ? (
-              <div className="text-gray-500 text-sm my-auto">Loading...</div>
-                ) : rssItems.length > 0 ? (
-              <div className="flex flex-col h-full">
-                <h4 className="text-lg font-bold text-white mb-3 line-clamp-2 leading-snug group-hover:text-green-400 transition-colors">
-                  <a href={rssItems[0].link} target="_blank" rel="noopener noreferrer">
-                    {rssItems[0].title.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'")}
-                  </a>
-                </h4>
-                <a 
-                  href={rssItems[0].link} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="mt-auto text-sm text-gray-400 hover:text-white transition-colors inline-flex items-center"
-                >
-                  Read Article ↗
-                  </a>
-                </div>
-            ) : (
-              <div className="text-gray-500 text-sm my-auto">No articles found</div>
-              )}
-            </div>
-
-            {/* Latest Video */}
-          <div className="flex-1 bg-neutral-900/50 rounded-3xl p-6 border border-neutral-800 flex flex-col hover:bg-neutral-900/80 transition-colors">
-            <div className="mb-4 flex justify-between items-start">
-              <span className="text-xs font-bold tracking-wider text-red-400 bg-red-400/10 px-3 py-1 rounded-full">
-                VIDEO
-              </span>
-              <a 
-                href="https://www.youtube.com/channel/UCqv7gk4p_rB4nRz0j7B5yFA" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-xs text-gray-500 hover:text-white transition-colors"
+            
+            {/* Content on the right */}
+            <div className="flex-1 min-w-0">
+              <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">
+                Interface Studies
+              </h3>
+              <p className="text-base md:text-lg text-gray-300 leading-relaxed mb-6 md:mb-8">
+                Exploring human interfaces, software, and digital culture—past, present, and future—one video at a time. Expect deep dives into books and papers, some news, personal projects, and design insights.
+              </p>
+              <Link 
+                href="/interfacestudies"
+                className="inline-flex items-center text-sm md:text-base text-green-400 hover:text-green-300 transition-colors font-medium"
               >
-                View All
-              </a>
-                </div>
-
-                {isLoadingYoutube ? (
-              <div className="text-gray-500 text-sm my-auto">Loading...</div>
-                ) : youtubeItems.length > 0 ? (
-              <div className="flex flex-col h-full">
-                <h4 className="text-lg font-bold text-white mb-3 line-clamp-2 leading-snug">
-                  <a href={youtubeItems[0].link} target="_blank" rel="noopener noreferrer">
-                    {youtubeItems[0].title.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'")}
-                  </a>
-                </h4>
-                <a 
-                  href={youtubeItems[0].link} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="mt-auto text-sm text-gray-400 hover:text-white transition-colors inline-flex items-center"
-                >
-                  Watch Video ↗
-                  </a>
-                </div>
-            ) : (
-              <div className="text-gray-500 text-sm my-auto">No videos found</div>
-              )}
+                Learn more <span className="ml-2">→</span>
+              </Link>
+            </div>
           </div>
-
         </div>
 
       </div>

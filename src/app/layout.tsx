@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Orbit } from 'next/font/google';
+import { Orbit, Space_Grotesk } from 'next/font/google';
 import "./globals.css";
 import Script from 'next/script';
 
@@ -7,6 +7,12 @@ const orbit = Orbit({
   weight: '400',
   subsets: ['latin'],
   variable: '--font-orbit',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  weight: ['400', '500', '600', '700'],
+  subsets: ['latin'],
+  variable: '--font-space-grotesk',
 });
 
 export const viewport: Viewport = {
@@ -50,7 +56,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={orbit.variable}>
+    <html lang="en" className={`${orbit.variable} ${spaceGrotesk.variable}`}>
       <body suppressHydrationWarning>
         {/* Microsoft Clarity */}
         <Script
