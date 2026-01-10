@@ -44,32 +44,55 @@ const SIDE_PROJECTS = [
 ];
 
 export default function BioPage() {
-  const [mounted, setMounted] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const handleCopyEmail = () => {
-    navigator.clipboard.writeText('mskayyali@me.com');
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopyEmail = async () => {
+    const email = 'mskayyali@me.com';
+    
+    try {
+      // Try modern clipboard API first (requires HTTPS on mobile)
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(email);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } else {
+        // Fallback for older browsers or HTTP connections
+        const textArea = document.createElement('textarea');
+        textArea.value = email;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        
+        try {
+          const successful = document.execCommand('copy');
+          if (successful) {
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+          } else {
+            // If copy fails, fallback to showing email
+            alert(`Email: ${email}`);
+          }
+        } catch (err) {
+          // If execCommand fails, show email
+          alert(`Email: ${email}`);
+        } finally {
+          document.body.removeChild(textArea);
+        }
+      }
+    } catch (err) {
+      // If clipboard API fails, show email as fallback
+      alert(`Email: ${email}`);
+    }
   };
 
-  if (!mounted) {
-    return (
-      <div className="h-screen w-full bg-black text-white flex items-center justify-center">
-        <div className="text-green-400 animate-pulse">Loading...</div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen md:h-screen w-full bg-black text-gray-100 selection:bg-green-400 selection:text-black flex flex-col md:flex-row p-4 md:p-8 gap-4 md:gap-8 md:overflow-hidden">
+    <div className="min-h-screen md:h-screen w-full bg-black text-gray-100 selection:bg-green-400 selection:text-black flex flex-col md:flex-row p-4 pt-6 pb-12 md:p-8 gap-4 md:gap-8 md:overflow-hidden">
       
       {/* Left Column: Bio & Intro */}
-      <div className="w-full md:w-1/3 flex flex-col justify-start md:justify-between h-auto md:h-full fade-in-up gap-4 md:gap-0">
+      <div className="w-full md:w-1/3 flex flex-col justify-start md:justify-between h-auto md:h-full fade-in-up gap-4 md:gap-0 pt-4 md:pt-0">
         <div>
           <header className="mb-4 md:mb-12">
             <h1 className="text-4xl md:text-6xl font-bold mb-2 md:mb-4 tracking-tight text-white leading-tight">
@@ -116,12 +139,12 @@ export default function BioPage() {
             >
               {copied ? 'Copied!' : 'Email'}
             </button>
-          </div>
-        </div>
-      </div>
+                  </div>
+                </div>
+              </div>
 
       {/* Right Column: Content Grid */}
-      <div className="w-full md:w-2/3 flex flex-col gap-4 md:gap-6 h-auto md:h-full md:overflow-y-auto no-scrollbar">
+      <div className="w-full md:w-2/3 flex flex-col gap-4 md:gap-6 h-auto md:h-full md:overflow-y-auto no-scrollbar pb-8 md:pb-0">
         
         {/* Top: Side Projects List */}
         <div className="flex-1 min-h-[420px] md:min-h-[300px] bg-neutral-900/50 rounded-3xl p-6 md:p-8 border border-neutral-800 flex flex-col fade-in-up" style={{ animationDelay: '0.1s' }}>
@@ -131,8 +154,8 @@ export default function BioPage() {
               Side Projects & Design Exploration
               <span className="text-gray-600 font-normal">({SIDE_PROJECTS.length})</span>
             </h3>
-          </div>
-          
+            </div>
+
           <div className="flex-1 overflow-y-auto no-scrollbar">
             <div className="flex flex-col gap-4">
               {SIDE_PROJECTS.map((project) => (
@@ -164,7 +187,7 @@ export default function BioPage() {
                     <p className="text-sm md:text-base text-gray-400 leading-relaxed">
                       {project.description}
                     </p>
-                  </div>
+            </div>
 
                   {/* View link on the right */}
                   <div className="flex-shrink-0 flex items-center">
@@ -172,14 +195,14 @@ export default function BioPage() {
                       View <span className="ml-1">→</span>
                     </span>
                   </div>
-                </a>
+                  </a>
               ))}
             </div>
           </div>
         </div>
 
         {/* Bottom: Interface Studies */}
-        <div className="h-auto md:h-[40%] fade-in-up" style={{ animationDelay: '0.2s' }}>
+        <div className="h-auto md:h-[40%] fade-in-up mb-8 md:mb-0" style={{ animationDelay: '0.2s' }}>
           <div className="bg-neutral-900/50 rounded-3xl p-6 md:p-8 border border-neutral-800 hover:bg-neutral-900/80 transition-colors flex flex-col md:flex-row gap-6 md:gap-8 items-start">
             {/* Image on the left */}
             <div className="flex-shrink-0 w-24 h-24 md:w-32 md:h-32 rounded-lg overflow-hidden border border-neutral-800">
@@ -187,9 +210,9 @@ export default function BioPage() {
                 src="/IS.jpg" 
                 alt="Interface Studies" 
                 className="w-full h-full object-cover"
-              />
-            </div>
-            
+        />
+      </div>
+
             {/* Content on the right */}
             <div className="flex-1 min-w-0">
               <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">

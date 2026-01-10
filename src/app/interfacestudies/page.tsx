@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import Link from 'next/link';
 
 interface Video {
@@ -50,8 +50,101 @@ const VIDEOS: Video[] = [
 export default function InterfaceStudiesPage() {
   const [mounted, setMounted] = useState(false);
 
+  // Use useLayoutEffect to scroll before paint - this is critical for mobile
+  useLayoutEffect(() => {
+    // Force scroll to top immediately, before any rendering
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+      
+      // Also set scroll position on root elements
+      if (document.documentElement) {
+        document.documentElement.scrollTop = 0;
+      }
+      if (document.body) {
+        document.body.scrollTop = 0;
+      }
+    }
+  }, []);
+
   useEffect(() => {
     setMounted(true);
+    
+    // Comprehensive scroll handling for mobile browsers
+    const scrollToTop = () => {
+      if (typeof window !== 'undefined') {
+        // Force scroll on all possible scroll containers
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        if (window.scrollY !== 0) {
+          window.scrollTo(0, 0);
+        }
+        
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        
+        // Also try scrolling the document element directly
+        const html = document.documentElement;
+        const body = document.body;
+        if (html) html.scrollTop = 0;
+        if (body) body.scrollTop = 0;
+        
+        // Handle iOS Safari specifically
+        if (html && html.scrollHeight > html.clientHeight) {
+          html.scrollTop = 0;
+        }
+        if (body && body.scrollHeight > body.clientHeight) {
+          body.scrollTop = 0;
+        }
+      }
+    };
+    
+    // Immediate scroll
+    scrollToTop();
+    
+    // Multiple attempts for mobile browsers (especially iOS Safari)
+    // Mobile browsers have address bar behavior that affects scroll position
+    const timers = [
+      setTimeout(scrollToTop, 0),
+      setTimeout(scrollToTop, 50),
+      setTimeout(scrollToTop, 100),
+      setTimeout(scrollToTop, 200),
+      setTimeout(scrollToTop, 400),
+      setTimeout(scrollToTop, 600),
+    ];
+
+    // Also handle window resize events (mobile address bar show/hide)
+    const handleResize = () => {
+      scrollToTop();
+    };
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleResize);
+
+    // Handle scroll events to force position if it changes
+    let scrollCheckInterval: NodeJS.Timeout | null = null;
+    if (typeof window !== 'undefined') {
+      scrollCheckInterval = setInterval(() => {
+        if (window.scrollY > 0 || document.documentElement.scrollTop > 0 || document.body.scrollTop > 0) {
+          scrollToTop();
+        }
+      }, 100);
+      
+      // Stop checking after 2 seconds
+      setTimeout(() => {
+        if (scrollCheckInterval) {
+          clearInterval(scrollCheckInterval);
+        }
+      }, 2000);
+    }
+
+    return () => {
+      timers.forEach(timer => clearTimeout(timer));
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleResize);
+      if (scrollCheckInterval) {
+        clearInterval(scrollCheckInterval);
+      }
+    };
   }, []);
 
   if (!mounted) {
@@ -63,7 +156,7 @@ export default function InterfaceStudiesPage() {
   }
 
   return (
-    <div className="min-h-screen w-full bg-black text-white overflow-x-hidden">
+    <div className="min-h-screen w-full bg-black text-white overflow-x-hidden" style={{ scrollBehavior: 'auto' }}>
       {/* Minimal Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-xl border-b border-neutral-900/30">
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 py-4 md:py-6">
@@ -214,7 +307,7 @@ export default function InterfaceStudiesPage() {
         </div>
       </section>
 
-      <style jsx>{`
+      <style jsx global>{`
         @keyframes fadeInUp {
           from {
             opacity: 0;
@@ -241,6 +334,34 @@ export default function InterfaceStudiesPage() {
           -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           overflow: hidden;
+        }
+        
+        /* Mobile scroll fixes */
+        @media (max-width: 768px) {
+          html {
+            scroll-behavior: auto !important;
+          }
+          body {
+            overflow-x: hidden;
+            position: relative;
+            -webkit-overflow-scrolling: touch;
+          }
+          /* Ensure hero section starts at top on mobile */
+          section:first-of-type {
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+          }
+        }
+        
+        /* iOS Safari specific fixes */
+        @supports (-webkit-touch-callout: none) {
+          html {
+            height: -webkit-fill-available;
+          }
+          body {
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+          }
         }
       `}</style>
     </div>
